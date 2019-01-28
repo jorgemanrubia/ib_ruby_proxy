@@ -5,6 +5,7 @@ java_import 'com.ib.client.EWrapper'
 java_import 'com.ib.client.EJavaSignal'
 java_import 'com.ib.client.EClientSocket'
 java_import 'com.ib.client.EReader'
+java_import 'com.ib.client.Contract'
 
 module IbRubyProxy
   class Error < StandardError;
@@ -325,6 +326,7 @@ class DummyWrapper
   end
 
   def historicalTicksLast(reqId, ticks, done)
+    puts "Receiving: #{ticks.inspect}"
   end
 
   def tickByTickAllLast(reqId, tickType, time, price, size, tickAttribLast,
@@ -343,12 +345,39 @@ class DummyWrapper
   end
 end
 
+def emini
+  contract = Contract.new
+  contract.symbol("ES");
+  contract.secType("FUT");
+  contract.currency("USD");
+  contract.exchange("GLOBEX");
+  contract.lastTradeDateOrContractMonth("201903");
+  contract
+end
+
 wrapper = DummyWrapper.new
 
 client = wrapper.client
 signal = wrapper.signal
 client.eConnect("127.0.0.1", 4002, 2)
 reader = EReader.new(client, signal)
+
 reader.start
+
+
+Thread.new do
+  while client.isConnected
+    signal.waitForSignal
+    begin
+      reader.processMsgs();
+    rescue e
+      puts "Error catched: #{e}"
+    end
+  end
+end
+
+sleep 1
+
+client.reqHistoricalTicks(18001, emini, "20190125 21:39:33", nil, 100, "TRADES", 1, false, nil)
 
 puts "BIEN"
