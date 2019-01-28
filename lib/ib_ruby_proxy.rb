@@ -380,4 +380,5 @@ sleep 1
 
 client.reqHistoricalTicks(18001, emini, "20190125 21:39:33", nil, 100, "TRADES", 1, false, nil)
 
-puts "BIEN"
+# We will generate the wrapper proxy with reflection and drb!
+puts EWrapper.java_class.declared_instance_methods
