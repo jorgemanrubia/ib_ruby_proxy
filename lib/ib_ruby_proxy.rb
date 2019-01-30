@@ -5,5 +5,4 @@ Dir["#{__dir__}/ib_ruby_proxy/client/**/*.rb"].each {|file| require file }
 module IbRubyProxy
   class Error < StandardError;
   end
-  # Your code goes here...
 end
