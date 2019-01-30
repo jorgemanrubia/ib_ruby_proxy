@@ -1,13 +1,13 @@
 require "ib_ruby_proxy/version"
 require_relative '../../../vendor/TwsApi.jar'
-require 'drb'
 require_relative 'ib_callbacks_wrapper'
+require_relative 'ib_client_adapter'
+require 'drb'
 
 java_import 'com.ib.client.EClientSocket'
 java_import 'com.ib.client.EJavaSignal'
 java_import 'com.ib.client.EClientSocket'
 java_import 'com.ib.client.EReader'
-java_import 'com.ib.client.Contract'
 
 module IbRubyProxy
   module Server
@@ -30,7 +30,7 @@ module IbRubyProxy
       end
 
       def start
-        DRb.start_service("druby://#{drb_host}:#{drb_port}", client)
+        DRb.start_service("druby://#{drb_host}:#{drb_port}", ib_client_adapter)
         start_ib_message_processing_thread
         puts "Ib proxy server started at druby://#{drb_host}:#{drb_port}. Connected to IB at #{ib_host}:#{ib_port}"
         DRb.thread.join
@@ -47,8 +47,8 @@ module IbRubyProxy
             signal.waitForSignal
             begin
               reader.processMsgs();
-            rescue e
-              puts "Error catched: #{e}"
+            rescue StandardError => e
+              puts "Error while processing ib message: #{e}"
             end
           end
         end
@@ -56,6 +56,10 @@ module IbRubyProxy
 
       def connect
         client.eConnect(ib_host, ib_port, 2)
+      end
+
+      def ib_client_adapter
+        @ib_client_adapter ||= IbRubyProxy::Server::IbClientAdapter.new(client)
       end
 
       attr_reader :wrapper, :client, :signal, :ib_host, :ib_port, :drb_host, :drb_port
