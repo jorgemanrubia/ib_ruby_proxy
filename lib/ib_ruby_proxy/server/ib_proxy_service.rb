@@ -11,7 +11,7 @@ java_import 'com.ib.client.EReader'
 
 module IbRubyProxy
   module Server
-    class IbService
+    class IbProxyService
       DEFAULT_IB_GATEWAY_PORT = 4002
       DEFAULT_DRB_PORT = 1992
 
