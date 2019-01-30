@@ -38,6 +38,8 @@ module IbRubyProxy
 
       private
 
+      attr_reader :wrapper, :client, :signal, :ib_host, :ib_port, :drb_host, :drb_port
+
       def start_ib_message_processing_thread
         reader = EReader.new(client, signal)
         reader.start
@@ -61,8 +63,6 @@ module IbRubyProxy
       def ib_client_adapter
         @ib_client_adapter ||= IbRubyProxy::Server::IbClientAdapter.new(client)
       end
-
-      attr_reader :wrapper, :client, :signal, :ib_host, :ib_port, :drb_host, :drb_port
     end
   end
 end
