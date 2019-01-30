@@ -317,9 +317,6 @@ module IbRubyProxy
 
       def historicalTicksLast(reqId, ticks, done)
         puts "Receiving: #{ticks.first}"
-
-        notify(reqId, ticks, done)
-
       end
 
       def tickByTickAllLast(reqId, tickType, time, price, size, tickAttribLast,
