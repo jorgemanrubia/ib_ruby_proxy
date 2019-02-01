@@ -1,5 +1,4 @@
 require "ib_ruby_proxy/version"
-require_relative '../../../vendor/TwsApi.jar'
 require_relative 'ib_callbacks_wrapper'
 require_relative 'ib_client_adapter'
 require 'drb'

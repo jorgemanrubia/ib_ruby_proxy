@@ -198,15 +198,16 @@ module IbRubyProxy
       end
 
 
-      def error(e)
-      end
+      # def error(e)
+      # end
+      #
+      #
+      # def error(str)
+      # end
 
 
-      def error(str)
-      end
-
-
-      def error(id, errorCode, errorMsg)
+      def error(*args)
+        puts args.inspect
       end
 
 

@@ -5,6 +5,6 @@ $LOAD_PATH.unshift File.join(__dir__, '..')
 $LOAD_PATH.unshift File.join(__dir__, '..', 'lib')
 
 require 'ib_ruby_proxy'
-require_relative '../lib/ib_ruby_proxy/server/ib_service'
+require  'server'
 
 IbRubyProxy::Server::IbProxyService.new.start
