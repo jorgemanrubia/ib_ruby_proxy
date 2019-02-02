@@ -1,5 +1,6 @@
 require 'spec_helper'
 java_import 'com.ib.client.Contract'
+java_import 'com.ib.client.Types'
 
 describe IbRubyProxy::Server::IbRubyClassGenerator do
   describe '#ruby_class_source_for' do
@@ -26,6 +27,11 @@ describe IbRubyProxy::Server::IbRubyClassGenerator do
                                                                 last_trade_date_or_contract_month: '201903'
         ib_contract = contract.to_ib
         expect(ib_contract).to be_an_instance_of(Java::ComIbClient::Contract)
+        expect(ib_contract.symbol).to eq('ES')
+        expect(ib_contract.secType).to eq(Types::SecType::FUT)
+        expect(ib_contract.currency).to eq('USD')
+        expect(ib_contract.exchange).to eq('GLOBEX')
+        expect(ib_contract.lastTradeDateOrContractMonth).to eq('201903')
       end
     end
   end
