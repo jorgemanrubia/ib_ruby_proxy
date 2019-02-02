@@ -1,6 +1,8 @@
 require 'drb'
 require 'benchmark'
 
+# This is a dummy performance test to have an idea of drb throughput. I got it's possible to process 10000 notifications
+# per second with MRI ruby 2.5, which should be enough for real time tick data.
 class ResultCallback
   include DRbUndumped
 
