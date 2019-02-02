@@ -1,17 +1,6 @@
 require 'drb'
 require 'ib_ruby_proxy'
 
-class MyObserver
-  include DRbUndumped
-
-  def update(*notifications)
-    puts "checking notifications ..."
-    notifications.each do |n|
-      puts n.message
-    end
-  end
-end
-
 client = DRbObject.new(nil, "druby://localhost:1992")
 DRb.start_service
 
