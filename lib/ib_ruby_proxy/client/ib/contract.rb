@@ -21,7 +21,7 @@ module IbRubyProxy
           self.include_expired = include_expired
           self.combo_legs_descrip = combo_legs_descrip
           self.combo_legs = combo_legs
-  end
+        end
 
         def to_ib
           ib_object = Java::ComIbClient::Contract.new
@@ -45,8 +45,8 @@ module IbRubyProxy
           ib_object.comboLegs(combo_legs)
 
           ib_object
-          end
+        end
       end
-            end
+    end
   end
 end
