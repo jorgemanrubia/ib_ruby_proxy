@@ -56,7 +56,7 @@ module IbRubyProxy
         def find_name
           field_name_without_prefix = java_field.name.gsub(IB_FIELD_PREFIX, '')
           method = ib_class.klass.java_class.declared_instance_methods.find {|method| method.name.downcase == field_name_without_prefix.downcase}
-          raise "No method matching '#{field.name}'?" if !method
+          raise "No method matching '#{field.name}'?" unless method
           method.name
         end
       end
