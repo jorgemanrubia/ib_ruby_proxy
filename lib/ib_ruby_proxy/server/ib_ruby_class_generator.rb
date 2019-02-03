@@ -26,7 +26,6 @@ module IbRubyProxy
 
       private
 
-
       def generate_namespace_open
         namespace_list.collect {|namespace| "module #{namespace}"}.join("\n")
       end

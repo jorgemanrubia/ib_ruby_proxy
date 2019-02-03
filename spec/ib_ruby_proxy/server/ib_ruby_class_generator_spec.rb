@@ -19,7 +19,7 @@ describe IbRubyProxy::Server::IbRubyClassGenerator do
     end
 
     describe "#to_ib" do
-      it 'creates an ib object with the attributes copied' do
+      it 'creates an ib object with simple attributes copied' do
         contract = IbRubyProxy::Client::Ib::Test2::Contract.new symbol: 'ES',
                                                                 sec_type: 'FUT',
                                                                 currency: 'USD',
