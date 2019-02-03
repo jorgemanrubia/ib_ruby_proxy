@@ -1,5 +1,6 @@
 require 'spec_helper'
 java_import 'com.ib.client.Contract'
+java_import 'com.ib.client.ComboLeg'
 
 describe IbRubyProxy::Server::Reflection::IbField do
   subject(:ib_class){IbRubyProxy::Server::Reflection::IbClass.new(Java::ComIbClient::Contract)}
@@ -33,9 +34,29 @@ describe IbRubyProxy::Server::Reflection::IbField do
   end
 
   describe '#name' do
-    it 'should return the accessor name even when the property field uses a different case' do
+    it 'returns the accessor name even when the property field uses a different case' do
       # the underlying field is m_lastTradedateOrContractMonth
       expect(field('lastTradeDateOrContractMonth').name).to eq('lastTradeDateOrContractMonth')
+    end
+  end
+
+  describe '#is_list?' do
+    it 'returns true if the field is a list' do
+      expect(field('comboLegs')).to be_list
+    end
+
+    it 'returns false if the field is not a list' do
+      expect(field('lastTradeDateOrContractMonth')).not_to be_list
+    end
+  end
+
+  describe '#collection_type' do
+    it 'returns the generic type of the type when it exits' do
+      expect(field('comboLegs').generic_type).to eq(Java::ComIbClient::ComboLeg)
+    end
+
+    it 'returns nil when it does not exist' do
+      expect(field('lastTradeDateOrContractMonth').generic_type).to be_nil
     end
   end
 
