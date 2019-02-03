@@ -13,10 +13,12 @@ module IbRubyProxy
       def ruby_class_source
         <<-RUBY
         #{generate_namespace_open}
+  
         #{generate_class_declaration}
-        #{generate_constructor}
-        #{generate_to_ib_method}
+          #{generate_constructor}
+          #{generate_to_ib_method}
         end
+
         #{generate_namespace_close}
         RUBY
       end
@@ -53,7 +55,7 @@ module IbRubyProxy
         end
         <<-RUBY
         def initialize(#{constructor_declarations.join(', ')})
-        #{assignment_statements.join('')}        
+          #{assignment_statements.join('')}        
         end
         RUBY
       end
@@ -69,9 +71,9 @@ module IbRubyProxy
 
         <<-RUBY
         def to_ib
-        ib_object = #{ib_class.klass.name}.new
-        #{property_copy_sentences.join('')}
-        ib_object             
+          ib_object = #{ib_class.klass.name}.new
+          #{property_copy_sentences.join('')}
+          ib_object             
         end
         RUBY
       end
