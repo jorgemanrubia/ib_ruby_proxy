@@ -4,7 +4,7 @@ java_import 'com.ib.client.Types'
 
 describe IbRubyProxy::Server::IbRubyClassGenerator do
   describe '#ruby_class_source_for' do
-    it 'should generate a valid ruby object for a simple ib value object class' do
+    it 'generates a valid ruby object for a simple ib value object class' do
       generator = IbRubyProxy::Server::IbRubyClassGenerator.new(Contract, namespace: 'IbRubyProxy::Client::Ib::Test1')
       eval generator.ruby_class_source
       contract = IbRubyProxy::Client::Ib::Test1::Contract.new(last_trade_date_or_contract_month: '2018-2-4')
@@ -19,7 +19,7 @@ describe IbRubyProxy::Server::IbRubyClassGenerator do
     end
 
     describe "#to_ib" do
-      it 'should create an ib object with the attributes copied' do
+      it 'creates an ib object with the attributes copied' do
         contract = IbRubyProxy::Client::Ib::Test2::Contract.new symbol: 'ES',
                                                                 sec_type: 'FUT',
                                                                 currency: 'USD',

@@ -4,11 +4,11 @@ module IbRubyProxy
       class IbField
         IB_FIELD_PREFIX = /^m_/
 
-        attr_reader :java_field, :java_class
+        attr_reader :java_field, :ib_class
 
-        def initialize(java_field, java_class)
+        def initialize(java_field, ib_class)
           @java_field = java_field
-          @java_class = java_class
+          @ib_class = ib_class
         end
 
         def default_value
@@ -39,7 +39,7 @@ module IbRubyProxy
 
         def find_name
           field_name_without_prefix = java_field.name.gsub(IB_FIELD_PREFIX, '')
-          method = java_class.java_class.declared_instance_methods.find {|method| method.name.downcase == field_name_without_prefix.downcase}
+          method = ib_class.klass.java_class.declared_instance_methods.find {|method| method.name.downcase == field_name_without_prefix.downcase}
           raise "No method matching '#{field.name}'?" if !method
           method.name
         end
