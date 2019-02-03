@@ -17,6 +17,7 @@ module IbRubyProxy
         #{generate_class_declaration}
           #{generate_constructor}
           #{generate_to_ib_method}
+          #{generate_from_ib_factory_method}
         end
 
         #{generate_namespace_close}
@@ -49,9 +50,9 @@ module IbRubyProxy
         end
 
         assignment_statements = ib_class.ruby_properties.collect do |ruby_property|
-        <<-RUBY
+          <<-RUBY
         self.#{ruby_property} = #{ruby_property}
-        RUBY
+          RUBY
         end
         <<-RUBY
         def initialize(#{constructor_declarations.join(', ')})
@@ -74,6 +75,23 @@ module IbRubyProxy
           ib_object             
         end
         RUBY
+      end
+
+      def generate_from_ib_factory_method
+        property_copy_sentences = ib_class.zipped_ruby_and_java_properties.collect do |ruby_property, java_field|
+          <<-RUBY
+          ruby_object.#{ruby_property} = ib_object.#{java_field.name}()
+          RUBY
+        end
+
+        <<-RUBY
+        def self.from_ib(ib_object)
+          ruby_object = self.new
+          #{property_copy_sentences.join('')}
+          ruby_object             
+        end
+        RUBY
+
       end
     end
   end

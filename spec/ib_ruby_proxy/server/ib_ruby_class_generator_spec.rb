@@ -34,5 +34,24 @@ describe IbRubyProxy::Server::IbRubyClassGenerator do
         expect(ib_contract.lastTradeDateOrContractMonth).to eq('201903')
       end
     end
+
+    describe '.from_ib' do
+      it 'creates a ruby object from with the attributes copied from the provided IB object' do
+        ib_contract = Java::ComIbClient::Contract.new
+        ib_contract.symbol('ES')
+        ib_contract.secType('FUT')
+        ib_contract.currency('USD')
+        ib_contract.exchange('GLOBEX')
+        ib_contract.lastTradeDateOrContractMonth('201903')
+
+        ruby_contract = IbRubyProxy::Client::Ib::Test2::Contract.from_ib(ib_contract)
+        expect(ruby_contract).to be_instance_of(IbRubyProxy::Client::Ib::Test2::Contract)
+        expect(ruby_contract.symbol).to eq('ES')
+        expect(ruby_contract.sec_type).to eq(Types::SecType::FUT)
+        expect(ruby_contract.currency).to eq('USD')
+        expect(ruby_contract.exchange).to eq('GLOBEX')
+        expect(ruby_contract.last_trade_date_or_contract_month).to eq('201903')
+      end
+    end
   end
 end
