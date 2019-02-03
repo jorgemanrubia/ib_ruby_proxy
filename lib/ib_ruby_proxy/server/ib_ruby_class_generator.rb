@@ -62,8 +62,6 @@ module IbRubyProxy
 
       def generate_to_ib_method
         property_copy_sentences = ib_class.zipped_ruby_and_java_properties.collect do |ruby_property, java_field|
-#          puts "#{java_field.type}-#{java_field.to_generic_string}"
-
           <<-RUBY
           ib_object.#{java_field.name}(#{ruby_property})
           RUBY

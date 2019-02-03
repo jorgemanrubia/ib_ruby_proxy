@@ -35,6 +35,22 @@ module IbRubyProxy
           @name ||= find_name
         end
 
+        def list?
+          java_field.type == Java::JavaUtil::List.java_class
+        end
+
+        def generic_type
+          # Implementation based on `JavaField#to_generic_string` because `JavaField#value` is not defined, despite of giving
+          # access to the underlying java field according to JRuby docs.
+          #
+          # `#to_generic_string` returns a string with this format:
+          #   private java.util.List<com.ib.client.ComboLeg> com.ib.client.Contract.m_comboLegs
+          full_class_name = java_field.to_generic_string[/<([^>]+)>/, 1]
+          return nil unless full_class_name
+          class_name = full_class_name.split('.').last
+          Java::ComIbClient.const_get(class_name)
+        end
+
         private
 
         def find_name
