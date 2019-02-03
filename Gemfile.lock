@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     ib_ruby_proxy (0.1.0)
+      awesome_print
 
 GEM
   remote: https://rubygems.org/
@@ -44,7 +45,6 @@ PLATFORMS
   java
 
 DEPENDENCIES
-  awesome_print
   bundler (~> 2.0.1)
   ib_ruby_proxy!
   rake (~> 10.0)
