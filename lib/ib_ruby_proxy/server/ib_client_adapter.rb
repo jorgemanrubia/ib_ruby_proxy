@@ -1,9 +1,6 @@
-require_relative 'converts_ruby_to_ib'
-
 module IbRubyProxy
   module Server
     class IbClientAdapter
-      include ConvertsRubyToIb
 
       attr_reader :ib_client
 
