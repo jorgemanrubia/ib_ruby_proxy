@@ -9,4 +9,10 @@ describe IbRubyProxy::Server::Reflection::IbClass do
       expect(ib_class.name).to eq('Contract')
     end
   end
+
+  describe '#full_name' do
+    it 'returns the full qualified class name' do
+      expect(ib_class.full_name).to eq('Java::ComIbClient::Contract')
+    end
+  end
 end
