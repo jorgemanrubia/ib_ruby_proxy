@@ -12,19 +12,34 @@ module IbRubyProxy
 
       def ruby_class_source
         <<-RUBY
+        #{generate_ib_class_extension}
+
+        #{generate_ruby_class}
+        RUBY
+      end
+
+      private
+
+      def generate_ib_class_extension
+        <<-RUBY
+        class #{ib_class.full_name}
+          #{generate_to_ruby_method}
+        end
+        RUBY
+      end
+
+      def generate_ruby_class
+        <<-RUBY
         #{generate_namespace_open}
   
         #{generate_class_declaration}
           #{generate_constructor}
           #{generate_to_ib_method}
-          #{generate_from_ib_factory_method}
         end
 
         #{generate_namespace_close}
         RUBY
       end
-
-      private
 
       def generate_namespace_open
         namespace_list.collect {|namespace| "module #{namespace}"}.join("\n")
@@ -76,21 +91,20 @@ module IbRubyProxy
         RUBY
       end
 
-      def generate_from_ib_factory_method
+      def generate_to_ruby_method
         property_copy_sentences = ib_class.zipped_ruby_and_java_properties.collect do |ruby_property, java_field|
           <<-RUBY
-          ruby_object.#{ruby_property} = ib_object.#{java_field.name}()
+          ruby_object.#{ruby_property} = #{java_field.name}()
           RUBY
         end
 
         <<-RUBY
-        def self.from_ib(ib_object)
-          ruby_object = self.new
+        def to_ruby
+          ruby_object = #{namespace_list.join('::')}::#{ib_class.name}.new
           #{property_copy_sentences.join('')}
           ruby_object             
         end
         RUBY
-
       end
     end
   end
