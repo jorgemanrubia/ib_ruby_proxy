@@ -31,3 +31,4 @@ module IbRubyProxy
   end
 end
 
+# ap Java::ComIbClient::Contract.java_class.declared_instance_methods
