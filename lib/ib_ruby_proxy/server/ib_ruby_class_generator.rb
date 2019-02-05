@@ -12,6 +12,10 @@ module IbRubyProxy
 
       def ruby_class_source
         <<-RUBY
+        # ---------------------------------------------         
+        # File generated automatically by ib_ruby_proxy         
+        # ---------------------------------------------         
+
         #{generate_ib_class_extension}
 
         #{generate_ruby_class}
