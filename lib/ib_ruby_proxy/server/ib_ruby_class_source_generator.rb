@@ -1,6 +1,6 @@
 module IbRubyProxy
   module Server
-    class IbRubyClassGenerator
+    class IbRubyClassSourceGenerator
       include IbRubyProxy::Util::StringUtils
 
       attr_reader :ib_class, :namespace_list, :ib_class
@@ -26,6 +26,8 @@ module IbRubyProxy
 
       def generate_ib_class_extension
         <<-RUBY
+        java_import "com.ib.client.#{ib_class.name}"        
+
         class #{ib_class.full_name}
           #{generate_to_ruby_method}
         end

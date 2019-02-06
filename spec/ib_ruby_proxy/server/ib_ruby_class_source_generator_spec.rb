@@ -2,10 +2,10 @@ require 'spec_helper'
 java_import 'com.ib.client.Contract'
 java_import 'com.ib.client.Types'
 
-describe IbRubyProxy::Server::IbRubyClassGenerator do
+describe IbRubyProxy::Server::IbRubyClassSourceGenerator do
   describe '#ruby_class_source_for' do
     it 'generates a valid ruby object for a simple ib value object class' do
-      generator = IbRubyProxy::Server::IbRubyClassGenerator.new(Contract, namespace: 'IbRubyProxy::Client::Ib::Test1')
+      generator = IbRubyProxy::Server::IbRubyClassSourceGenerator.new(Contract, namespace: 'IbRubyProxy::Client::Ib::Test1')
       eval generator.ruby_class_source
       contract = IbRubyProxy::Client::Ib::Test1::Contract.new(last_trade_date_or_contract_month: '2018-2-4')
       expect(contract.last_trade_date_or_contract_month).to eq('2018-2-4')
@@ -14,7 +14,7 @@ describe IbRubyProxy::Server::IbRubyClassGenerator do
 
   describe "Extended ib class" do
     before(:context) do
-      generator = IbRubyProxy::Server::IbRubyClassGenerator.new(Contract, namespace: 'IbRubyProxy::Client::Ib::Test2')
+      generator = IbRubyProxy::Server::IbRubyClassSourceGenerator.new(Contract, namespace: 'IbRubyProxy::Client::Ib::Test2')
       puts generator.ruby_class_source
       eval generator.ruby_class_source
     end
@@ -46,7 +46,7 @@ describe IbRubyProxy::Server::IbRubyClassGenerator do
 
   describe "Generated ruby class" do
     before(:context) do
-      generator = IbRubyProxy::Server::IbRubyClassGenerator.new(Contract, namespace: 'IbRubyProxy::Client::Ib::Test3')
+      generator = IbRubyProxy::Server::IbRubyClassSourceGenerator.new(Contract, namespace: 'IbRubyProxy::Client::Ib::Test3')
       eval generator.ruby_class_source
     end
 

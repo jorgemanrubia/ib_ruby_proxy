@@ -7,41 +7,6 @@ $LOAD_PATH.unshift File.join(__dir__, '..', 'lib')
 require 'ib_ruby_proxy'
 require  'server'
 
-RUBY_CLASSES = %w(ComboLeg DeltaNeutralContract Contract Order)
+client_code_dir = File.join(__dir__, '..', 'lib', 'ib_ruby_proxy', 'client', 'ib')
+IbRubyProxy::Server::IbRubyClassFilesGenerator.new(client_code_dir: client_code_dir).generate_all
 
-RUBY_CLASSES.each do |class_name|
-  java_import "com.ib.client.#{class_name}"
-end
-
-def generate_all
-  RUBY_CLASSES.each do |class_name|
-    generate class_name
-  end
-
-  rubocop_it_all
-end
-
-def generate(class_name)
-  ib_class = Java::ComIbClient.const_get(class_name)
-  generator = IbRubyProxy::Server::IbRubyClassGenerator.new(ib_class, namespace: 'IbRubyProxy::Client::Ib')
-
-  target_file = ruby_file_for(class_name)
-  puts "Generating #{target_file}..."
-  File.open(target_file, 'w') { |file| file.write(generator.ruby_class_source) }
-end
-
-def ruby_file_for(class_name)
-  file_name = "#{IbRubyProxy::Util::StringUtils.to_underscore(class_name)}.rb"
-  File.join(target_dir, file_name)
-end
-
-def target_dir
-  File.join(__dir__, '..', 'lib', 'ib_ruby_proxy', 'client', 'ib')
-end
-
-def rubocop_it_all
-  puts "Formatting..."
-  system "rubocop -a #{target_dir}"
-end
-
-generate_all
