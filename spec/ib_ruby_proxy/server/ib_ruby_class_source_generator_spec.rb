@@ -15,8 +15,8 @@ describe IbRubyProxy::Server::IbRubyClassSourceGenerator do
   describe "Extended ib class" do
     before(:context) do
       generator = IbRubyProxy::Server::IbRubyClassSourceGenerator.new(Contract, namespace: 'IbRubyProxy::Client::Ib::Test2')
-      puts generator.ruby_class_source
       eval generator.ruby_class_source
+      eval generator.ib_class_extension_source
     end
 
 

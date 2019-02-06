@@ -8,5 +8,6 @@ require 'ib_ruby_proxy'
 require  'server'
 
 client_code_dir = File.join(__dir__, '..', 'lib', 'ib_ruby_proxy', 'client', 'ib')
-IbRubyProxy::Server::IbRubyClassFilesGenerator.new(client_code_dir: client_code_dir).generate_all
+server_code_dir = File.join(__dir__, '..', 'lib', 'ib_ruby_proxy', 'server', 'ib')
+IbRubyProxy::Server::IbRubyClassFilesGenerator.new(client_code_dir: client_code_dir, server_code_dir: server_code_dir).generate_all
 
