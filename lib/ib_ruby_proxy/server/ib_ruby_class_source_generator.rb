@@ -12,9 +12,7 @@ module IbRubyProxy
 
       def ruby_class_source
         <<-RUBY
-        # ---------------------------------------------         
-        # File generated automatically by ib_ruby_proxy         
-        # ---------------------------------------------         
+        #{header}         
 
         #{generate_ruby_class}
         RUBY
@@ -22,15 +20,21 @@ module IbRubyProxy
 
       def ib_class_extension_source
         <<-RUBY
-        # ---------------------------------------------         
-        # File generated automatically by ib_ruby_proxy         
-        # ---------------------------------------------         
+        #{header}         
 
         #{generate_ib_class_extension}
         RUBY
       end
 
       private
+
+      def header
+        <<-RUBY
+        # ---------------------------------------------         
+        # File generated automatically by ib_ruby_proxy         
+        # ---------------------------------------------
+        RUBY
+      end
 
       def generate_ib_class_extension
         <<-RUBY
