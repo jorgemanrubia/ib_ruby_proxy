@@ -92,7 +92,7 @@ module IbRubyProxy
       def generate_to_ib_method
         property_copy_sentences = ib_class.zipped_ruby_and_java_properties.collect do |ruby_property, java_field|
           <<-RUBY
-          ib_object.#{java_field.name}(#{ruby_property})
+          ib_object.#{java_field.name}(#{ruby_property}).to_java
           RUBY
         end
 
@@ -108,7 +108,7 @@ module IbRubyProxy
       def generate_to_ruby_method
         property_copy_sentences = ib_class.zipped_ruby_and_java_properties.collect do |ruby_property, java_field|
           <<-RUBY
-          ruby_object.#{ruby_property} = #{java_field.name}()
+          ruby_object.#{ruby_property} = #{java_field.name}().to_ruby
           RUBY
         end
 
