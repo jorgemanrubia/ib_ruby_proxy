@@ -19,6 +19,11 @@ describe IbRubyProxy::Server::IbRubyClassSourceGenerator do
 
 
     describe '#to_ruby' do
+      it 'should delete' do
+        method = EClient.java_class.declared_instance_methods.first
+        ap method.parameter_types
+      end
+
       it 'should add a method to ruby that converts the ib object into a ruby object' do
         ib_contract = Java::ComIbClient::Contract.new
         ib_contract.symbol('ES')
