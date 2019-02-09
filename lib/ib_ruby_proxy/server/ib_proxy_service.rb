@@ -1,5 +1,5 @@
 require "ib_ruby_proxy/version"
-require_relative 'ib_callbacks_wrapper'
+require_relative 'ib_callbacks_adapter_wrapper'
 require_relative 'ib_client_adapter'
 require 'drb'
 
@@ -60,7 +60,7 @@ module IbRubyProxy
       end
 
       def ib_client_adapter
-        @ib_client_adapter ||= IbRubyProxy::Server::IbClientAdapter.new(client)
+        @ib_client_adapter ||= IbRubyProxy::Server::IbClientAdapter.new(client, wrapper)
       end
     end
   end
