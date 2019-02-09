@@ -6,8 +6,7 @@ java_import 'com.ib.client.Types'
 describe IbRubyProxy::Server::IbRubyClassSourceGenerator do
   describe '#ruby_class_source_for' do
     it 'generates a valid ruby object for a simple ib value object class' do
-      generator = IbRubyProxy::Server::IbRubyClassSourceGenerator.new(Contract, namespace: 'IbRubyProxy::Client::Ib::Test1')
-      eval generator.ruby_class_source
+      evaluate_generated_source_for Contract, namespace: 'IbRubyProxy::Client::Ib::Test1'
       contract = IbRubyProxy::Client::Ib::Test1::Contract.new(last_trade_date_or_contract_month: '2018-2-4')
       expect(contract.last_trade_date_or_contract_month).to eq('2018-2-4')
     end
@@ -15,9 +14,7 @@ describe IbRubyProxy::Server::IbRubyClassSourceGenerator do
 
   describe "Extended ib class" do
     before(:context) do
-      generator = IbRubyProxy::Server::IbRubyClassSourceGenerator.new(Contract, namespace: 'IbRubyProxy::Client::Ib::Test2')
-      eval generator.ruby_class_source
-      eval generator.ib_class_extension_source
+      evaluate_generated_source_for Contract, namespace: 'IbRubyProxy::Client::Ib::Test2'
     end
 
 
@@ -57,8 +54,7 @@ describe IbRubyProxy::Server::IbRubyClassSourceGenerator do
 
   describe 'Generated ruby class' do
     before(:context) do
-      generator = IbRubyProxy::Server::IbRubyClassSourceGenerator.new(Contract, namespace: 'IbRubyProxy::Client::Ib::Test3')
-      eval generator.ruby_class_source
+      evaluate_generated_source_for Contract, ComboLeg, namespace: 'IbRubyProxy::Client::Ib::Test3'
     end
 
     describe "#to_ib" do
@@ -79,8 +75,8 @@ describe IbRubyProxy::Server::IbRubyClassSourceGenerator do
       end
 
       it 'should support converting arrays of objects' do
-        ruby_contract = IbRubyProxy::Client::Ib::Test3::Contract
-        ruby_combo_legs = 2.times.collect {|index| IbRubyProxy::Client::Ib::Test3::ComboLeg(exchange: "Combo leg: #{index}")}
+        ruby_contract = IbRubyProxy::Client::Ib::Test3::Contract.new
+        ruby_combo_legs = 2.times.collect {|index| IbRubyProxy::Client::Ib::Test3::ComboLeg.new(exchange: "Combo leg: #{index}")}
         ruby_contract.combo_legs = ruby_combo_legs
 
         ib_contract = ruby_contract.to_ib
@@ -89,6 +85,14 @@ describe IbRubyProxy::Server::IbRubyClassSourceGenerator do
           expect(ib_combo_leg.exchange).to eq(ruby_combo_legs[index].exchange)
         end
       end
+    end
+  end
+
+  def evaluate_generated_source_for(*ib_classes, namespace:)
+    ib_classes.each do |ib_class|
+      contract_generator = IbRubyProxy::Server::IbRubyClassSourceGenerator.new(ib_class, namespace: namespace)
+      eval contract_generator.ruby_class_source
+      eval contract_generator.ib_class_extension_source
     end
   end
 
