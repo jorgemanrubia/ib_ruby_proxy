@@ -25,6 +25,8 @@ module IbRubyProxy
           def #{java_method.name}(*arguments)
             ruby_arguments = arguments.collect(&:to_ruby)
             if ib_callbacks_wrapper
+              puts ruby_method_name
+              puts ruby_arguments
               ib_callbacks_wrapper&.notify_observers "#{ruby_method_name}", *ruby_arguments
             else
               handle_callback_when_no_wrapper("#{ruby_method_name}", *ruby_arguments)

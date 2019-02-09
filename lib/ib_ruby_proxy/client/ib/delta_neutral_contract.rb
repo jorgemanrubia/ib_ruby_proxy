@@ -14,9 +14,9 @@ module IbRubyProxy
 
         def to_ib
           ib_object = Java::ComIbClient::DeltaNeutralContract.new
-          ib_object.conid(conid)
-          ib_object.delta(delta)
-          ib_object.price(price)
+          ib_object.conid(conid).to_java
+          ib_object.delta(delta).to_java
+          ib_object.price(price).to_java
 
           ib_object
         end
