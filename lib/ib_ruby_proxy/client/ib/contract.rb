@@ -29,24 +29,24 @@ module IbRubyProxy
 
         def to_ib
           ib_object = Java::ComIbClient::Contract.new
-          ib_object.conid(conid)
-          ib_object.symbol(symbol)
-          ib_object.secType(sec_type)
-          ib_object.lastTradeDateOrContractMonth(last_trade_date_or_contract_month)
-          ib_object.strike(strike)
-          ib_object.right(right)
-          ib_object.multiplier(multiplier)
-          ib_object.exchange(exchange)
-          ib_object.primaryExch(primary_exch)
-          ib_object.currency(currency)
-          ib_object.localSymbol(local_symbol)
-          ib_object.tradingClass(trading_class)
-          ib_object.secIdType(sec_id_type)
-          ib_object.secId(sec_id)
-          ib_object.deltaNeutralContract(delta_neutral_contract)
-          ib_object.includeExpired(include_expired)
-          ib_object.comboLegsDescrip(combo_legs_descrip)
-          ib_object.comboLegs(combo_legs)
+          ib_object.conid(conid).to_java
+          ib_object.symbol(symbol).to_java
+          ib_object.secType(sec_type).to_java
+          ib_object.lastTradeDateOrContractMonth(last_trade_date_or_contract_month).to_java
+          ib_object.strike(strike).to_java
+          ib_object.right(right).to_java
+          ib_object.multiplier(multiplier).to_java
+          ib_object.exchange(exchange).to_java
+          ib_object.primaryExch(primary_exch).to_java
+          ib_object.currency(currency).to_java
+          ib_object.localSymbol(local_symbol).to_java
+          ib_object.tradingClass(trading_class).to_java
+          ib_object.secIdType(sec_id_type).to_java
+          ib_object.secId(sec_id).to_java
+          ib_object.deltaNeutralContract(delta_neutral_contract).to_java
+          ib_object.includeExpired(include_expired).to_java
+          ib_object.comboLegsDescrip(combo_legs_descrip).to_java
+          ib_object.comboLegs(combo_legs).to_java
 
           ib_object
         end

@@ -19,14 +19,14 @@ module IbRubyProxy
 
         def to_ib
           ib_object = Java::ComIbClient::ComboLeg.new
-          ib_object.conid(conid)
-          ib_object.ratio(ratio)
-          ib_object.action(action)
-          ib_object.exchange(exchange)
-          ib_object.openClose(open_close)
-          ib_object.shortSaleSlot(short_sale_slot)
-          ib_object.designatedLocation(designated_location)
-          ib_object.exemptCode(exempt_code)
+          ib_object.conid(conid).to_java
+          ib_object.ratio(ratio).to_java
+          ib_object.action(action).to_java
+          ib_object.exchange(exchange).to_java
+          ib_object.openClose(open_close).to_java
+          ib_object.shortSaleSlot(short_sale_slot).to_java
+          ib_object.designatedLocation(designated_location).to_java
+          ib_object.exemptCode(exempt_code).to_java
 
           ib_object
         end
