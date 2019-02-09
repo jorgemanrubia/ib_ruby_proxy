@@ -1,5 +1,6 @@
 require 'spec_helper'
 java_import 'com.ib.client.Contract'
+java_import 'com.ib.client.ComboLeg'
 java_import 'com.ib.client.Types'
 
 describe IbRubyProxy::Server::IbRubyClassSourceGenerator do
@@ -22,8 +23,6 @@ describe IbRubyProxy::Server::IbRubyClassSourceGenerator do
 
     describe '#to_ruby' do
       it 'should add a method to ruby that converts the ib object into a ruby object' do
-        puts Contract.name
-
         ib_contract = Java::ComIbClient::Contract.new
         ib_contract.symbol('ES')
         ib_contract.secType('FUT')
@@ -40,11 +39,23 @@ describe IbRubyProxy::Server::IbRubyClassSourceGenerator do
         expect(ruby_contract.exchange).to eq('GLOBEX')
         expect(ruby_contract.last_trade_date_or_contract_month).to eq('201903')
       end
+
+      it 'should support converting arrays of objects' do
+        ib_contract = Java::ComIbClient::Contract.new
+        ib_combo_legs = 2.times.collect {|index| build_ib_combo_leg("Combo leg: #{index}")}
+        ib_contract.comboLegs(ib_combo_legs)
+
+        ruby_contract = ib_contract.to_ruby
+
+        ruby_contract.combo_legs.each.with_index do |ruby_combo_leg, index|
+          expect(ruby_combo_leg.exchange).to eq(ib_combo_legs[index].exchange)
+        end
+      end
     end
   end
 
 
-  describe "Generated ruby class" do
+  describe 'Generated ruby class' do
     before(:context) do
       generator = IbRubyProxy::Server::IbRubyClassSourceGenerator.new(Contract, namespace: 'IbRubyProxy::Client::Ib::Test3')
       eval generator.ruby_class_source
@@ -52,12 +63,13 @@ describe IbRubyProxy::Server::IbRubyClassSourceGenerator do
 
     describe "#to_ib" do
       it 'creates an ib object with simple attributes copied' do
-        contract = IbRubyProxy::Client::Ib::Test3::Contract.new symbol: 'ES',
-                                                                sec_type: 'FUT',
-                                                                currency: 'USD',
-                                                                exchange: 'GLOBEX',
-                                                                last_trade_date_or_contract_month: '201903'
-        ib_contract = contract.to_ib
+        ruby_contract = IbRubyProxy::Client::Ib::Test3::Contract.new symbol: 'ES',
+                                                                     sec_type: 'FUT',
+                                                                     currency: 'USD',
+                                                                     exchange: 'GLOBEX',
+                                                                     last_trade_date_or_contract_month: '201903'
+        ib_contract = ruby_contract.to_ib
+
         expect(ib_contract).to be_an_instance_of(Java::ComIbClient::Contract)
         expect(ib_contract.symbol).to eq('ES')
         expect(ib_contract.secType).to eq(Types::SecType::FUT)
@@ -65,6 +77,24 @@ describe IbRubyProxy::Server::IbRubyClassSourceGenerator do
         expect(ib_contract.exchange).to eq('GLOBEX')
         expect(ib_contract.lastTradeDateOrContractMonth).to eq('201903')
       end
+
+      it 'should support converting arrays of objects' do
+        ruby_contract = IbRubyProxy::Client::Ib::Test3::Contract
+        ruby_combo_legs = 2.times.collect {|index| IbRubyProxy::Client::Ib::Test3::ComboLeg(exchange: "Combo leg: #{index}")}
+        ruby_contract.combo_legs = ruby_combo_legs
+
+        ib_contract = ruby_contract.to_ib
+
+        ib_contract.comboLegs.each.with_index do |ib_combo_leg, index|
+          expect(ib_combo_leg.exchange).to eq(ruby_combo_legs[index].exchange)
+        end
+      end
     end
+  end
+
+  def build_ib_combo_leg(exchange)
+    ib_combo_leg = Java::ComIbClient::ComboLeg.new
+    ib_combo_leg.exchange(exchange)
+    ib_combo_leg
   end
 end
