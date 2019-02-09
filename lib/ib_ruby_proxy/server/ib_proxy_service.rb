@@ -21,7 +21,7 @@ module IbRubyProxy
         @drb_host = drb_host
         @drb_port = drb_port
 
-        @wrapper = IbRubyProxy::Server::IbCallbacksWrapper.new
+        @wrapper = IbRubyProxy::Server::IbCallbacksAdapterWrapper.new
         @client = wrapper.client
         @signal = wrapper.signal
 

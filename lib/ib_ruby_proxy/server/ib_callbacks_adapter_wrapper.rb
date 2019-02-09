@@ -3,7 +3,7 @@ java_import 'com.ib.client.EWrapper'
 # Let's mame more generic with EWrapper.java_class.declared_instance_methods
 module IbRubyProxy
   module Server
-    class IbCallbacksWrapper
+    class IbCallbacksAdapterWrapper
       # include DRb::DRbObservable
       include EWrapper
 
