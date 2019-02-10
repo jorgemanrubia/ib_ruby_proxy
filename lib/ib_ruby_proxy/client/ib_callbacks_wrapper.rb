@@ -5,7 +5,8 @@ module IbRubyProxy
       include DRb::DRbUndumped
 
       def update(*params)
-        method_name, arguments = params
+        puts "UPDATE RECEIVED IN OBSERVER"
+        method_name, *arguments = params
         send method_name, arguments
       end
     end
