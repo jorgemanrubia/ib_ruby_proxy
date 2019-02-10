@@ -11,7 +11,6 @@ module IbRubyProxy
       extend IbRubyProxy::Util::StringUtils
 
       attr_reader :signal, :client
-      attr_accessor :ib_callbacks_wrapper
 
       def initialize
         @signal = EJavaSignal.new
@@ -24,10 +23,15 @@ module IbRubyProxy
         class_eval <<-RUBY
           def #{java_method.name}(*arguments)
             ruby_arguments = arguments.collect(&:to_ruby)
-            if ib_callbacks_wrapper
-              puts ruby_method_name
-              puts ruby_arguments
-              ib_callbacks_wrapper&.notify_observers "#{ruby_method_name}", *ruby_arguments
+            if count_observers > 0
+              puts "****"
+              puts "RECEIVED WITH WRAPPED"
+              puts "#{ruby_method_name}"
+              ap ruby_arguments
+              puts "****"
+              
+              changed
+              notify_observers *(["#{ruby_method_name}"] + ruby_arguments)
             else
               handle_callback_when_no_wrapper("#{ruby_method_name}", *ruby_arguments)
             end
@@ -35,7 +39,7 @@ module IbRubyProxy
 
           def handle_callback_when_no_wrapper(method_name, *arguments)
 puts "*" 
-puts "RECEIVED"
+puts "RECEIVED GENERIC"
 puts method_name
 puts arguments
 raise arguments.last if arguments.last.respond_to?(:backtrace)
