@@ -1,7 +1,6 @@
 java_import 'com.ib.client.EWrapper'
 require 'drb/observer'
 
-# Let's mame more generic with EWrapper.java_class.declared_instance_methods
 module IbRubyProxy
   module Server
     class IbCallbacksAdapterWrapper
