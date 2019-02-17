@@ -19,7 +19,7 @@ module IbRubyProxy
         ib_callbacks_adapter_wrapper.add_observer(client_ib_callbacks_wrapper)
       end
 
-      def self.define_ruby_method(java_method)
+      def self.define_ruby_method_for(java_method)
         ruby_method_name = to_underscore(java_method.name)
 
         class_eval  <<-RUBY
@@ -31,7 +31,7 @@ module IbRubyProxy
       end
 
       EClient.java_class.declared_instance_methods.each do |java_method|
-        define_ruby_method(java_method)
+        define_ruby_method_for(java_method)
       end
     end
   end
