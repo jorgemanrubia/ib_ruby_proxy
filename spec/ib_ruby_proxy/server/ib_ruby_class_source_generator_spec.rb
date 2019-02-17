@@ -19,11 +19,6 @@ describe IbRubyProxy::Server::IbRubyClassSourceGenerator do
 
 
     describe '#to_ruby' do
-      it 'should delete' do
-        method = EClient.java_class.declared_instance_methods.first
-        ap method.parameter_types
-      end
-
       it 'should add a method to ruby that converts the ib object into a ruby object' do
         ib_contract = Java::ComIbClient::Contract.new
         ib_contract.symbol('ES')
@@ -42,7 +37,7 @@ describe IbRubyProxy::Server::IbRubyClassSourceGenerator do
         expect(ruby_contract.last_trade_date_or_contract_month).to eq('201903')
       end
 
-      it 'should support converting arrays of objects' do
+      it 'supports converting arrays of objects' do
         ib_contract = Java::ComIbClient::Contract.new
         ib_combo_legs = 2.times.collect {|index| build_ib_combo_leg("Combo leg: #{index}")}
         ib_contract.comboLegs(ib_combo_legs)
@@ -79,7 +74,7 @@ describe IbRubyProxy::Server::IbRubyClassSourceGenerator do
         expect(ib_contract.lastTradeDateOrContractMonth).to eq('201903')
       end
 
-      it 'should support converting arrays of objects' do
+      it 'supports converting arrays of objects' do
         ruby_contract = IbRubyProxy::Client::Ib::Test3::Contract.new
         ruby_combo_legs = 2.times.collect {|index| IbRubyProxy::Client::Ib::Test3::ComboLeg.new(exchange: "Combo leg: #{index}")}
         ruby_contract.combo_legs = ruby_combo_legs
