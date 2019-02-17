@@ -10,8 +10,8 @@ module IbRubyProxy
       # include DRb::DRbObservable
       include EWrapper
       include DRb::DRbObservable
+      include IbRubyProxy::Util::HasLogger
       extend IbRubyProxy::Util::StringUtils
-      extend IbRubyProxy::Util::HasLogger
 
       attr_reader :signal, :client
 
