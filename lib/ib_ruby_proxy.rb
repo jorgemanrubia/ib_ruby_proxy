@@ -3,8 +3,8 @@ require 'awesome_print'
 require 'drb'
 require 'logger'
 
-Dir["#{__dir__}/ib_ruby_proxy/client/**/*.rb"].each {|file| require file}
 Dir["#{__dir__}/ib_ruby_proxy/util/**/*.rb"].each {|file| require file}
+Dir["#{__dir__}/ib_ruby_proxy/client/**/*.rb"].each {|file| require file}
 
 module IbRubyProxy
   LOGGER_LEVEL = Logger::DEBUG
