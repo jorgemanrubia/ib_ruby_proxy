@@ -29,7 +29,7 @@ module IbRubyProxy
       end
 
       def start
-        DRb.start_service("druby://#{drb_host}:#{drb_port}", ib_client_adapter)
+        DRb.start_service("druby://#{drb_host}:#{drb_port}", ib_client_adapter, verbose: true)
         start_ib_message_processing_thread
         puts "Ib proxy server started at druby://#{drb_host}:#{drb_port}. Connected to IB at #{ib_host}:#{ib_port}"
         DRb.thread.join
