@@ -7,4 +7,10 @@ $LOAD_PATH.unshift File.join(__dir__, '..', 'lib')
 require 'ib_ruby_proxy'
 require  'server'
 
-IbRubyProxy::Server::IbProxyService.new.start
+ib_port, drb_port = ARGV
+ib_port ||= IbRubyProxy::Server::IbProxyService::DEFAULT_IB_GATEWAY_PORT
+drb_port ||= IbRubyProxy::Server::IbProxyService::DEFAULT_DRB_PORT
+
+puts "#{ib_port}|#{drb_port}"
+
+IbRubyProxy::Server::IbProxyService.new(ib_port: ib_port.to_i, drb_port: drb_port.to_i).start
