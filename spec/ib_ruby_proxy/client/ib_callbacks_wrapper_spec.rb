@@ -4,7 +4,7 @@ describe IbRubyProxy::Client::IbCallbacksWrapper do
     end
   end
 
-  it 'should respond to `update` invoking the method received in the arguments' do
+  it 'responds to `update` invoking the method received in the arguments' do
     wrapper = MyDummyWrapper.new
     expect(wrapper).to receive(:my_dummy_method).with(12, 34)
     wrapper.update :my_dummy_method, 12, 34
