@@ -2,6 +2,9 @@ java_import 'com.ib.client.EClient'
 
 module IbRubyProxy
   module Server
+    # This is a proxy to IB Client class that exposes a ruby interface for the corresponding methods
+    # Similar to how the IB api works, it accepts an observer `EWrapper` implementation that will be invoked
+    # with the responses.
     class IbClientAdapter
       extend IbRubyProxy::Util::StringUtils
 
