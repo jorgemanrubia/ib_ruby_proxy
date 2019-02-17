@@ -16,23 +16,19 @@ module IbRubyProxy
         ib_callbacks_adapter_wrapper.add_observer(client_ib_callbacks_wrapper)
       end
 
-
-      EClient.java_class.declared_instance_methods.each do |java_method|
+      def self.define_ruby_method(java_method)
         ruby_method_name = to_underscore(java_method.name)
 
-        ruby_source = <<-RUBY
+        class_eval  <<-RUBY
           def #{ruby_method_name}(*arguments)
             ib_arguments = arguments.collect(&:to_ib)
-            # puts "*"
-            # ib_arguments.each {|a| puts a; puts a.class}
-            # puts "*"
             @ib_client.#{java_method.name} *ib_arguments
           end
         RUBY
+      end
 
-        # puts ruby_source
-
-        class_eval ruby_source
+      EClient.java_class.declared_instance_methods.each do |java_method|
+        define_ruby_method(java_method)
       end
     end
   end
