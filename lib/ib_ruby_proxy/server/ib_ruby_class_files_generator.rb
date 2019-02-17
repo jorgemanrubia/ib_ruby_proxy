@@ -3,7 +3,7 @@ module IbRubyProxy
     class IbRubyClassFilesGenerator
       attr_reader :client_code_dir, :server_code_dir
 
-      RUBY_CLASSES = %w(ComboLeg DeltaNeutralContract Contract Order HistoricalTickLast TickAttribLast)
+      RUBY_CLASSES = %w(ComboLeg DeltaNeutralContract Contract Order HistoricalTickLast TickAttribLast Bar)
 
       RUBY_CLASSES.each do |class_name|
         java_import "com.ib.client.#{class_name}"
