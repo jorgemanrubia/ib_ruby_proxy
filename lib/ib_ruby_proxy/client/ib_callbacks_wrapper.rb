@@ -9,7 +9,6 @@ module IbRubyProxy
 
       def update(*params)
         method_name, *arguments = params
-        logger.debug "Method received in wrapper: #{method_name}"
         send method_name, *arguments
       end
 
