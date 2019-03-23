@@ -12,6 +12,12 @@ module IbRubyProxy
         logger.debug "Method received in wrapper: #{method_name}"
         send method_name, *arguments
       end
+
+      def error(*arguments)
+        logger.error "Error received in ib wrapper:"
+        logger.error arguments.inspect
+      end
+
     end
   end
 end
