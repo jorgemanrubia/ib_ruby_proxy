@@ -1,3 +1,5 @@
+require 'drb/timeridconv'
+
 module IbRubyProxy
   module Client
     class Client
@@ -6,6 +8,7 @@ module IbRubyProxy
       def initialize(host: 'localhost', port: 1992)
         @drb_client = DRbObject.new(nil, "druby://#{host}:#{port}")
         DRb::DRbServer.verbose = true
+        DRb.install_id_conv ::DRb::TimerIdConv.new 60
         DRb.start_service
       end
 
