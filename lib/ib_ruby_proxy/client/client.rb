@@ -6,9 +6,6 @@ module IbRubyProxy
       def initialize(host: 'localhost', port: 1992)
         @drb_client = DRbObject.new(nil, "druby://#{host}:#{port}")
         DRb::DRbServer.verbose = true
-      end
-
-      def connect
         DRb.start_service
       end
 
