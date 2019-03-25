@@ -1,9 +1,8 @@
 require 'drb'
 require 'ib_ruby_proxy'
+require 'concurrent-ruby'
 
-client = DRbObject.new(nil, "druby://localhost:1992")
-DRb::DRbServer.verbose = true
-DRb.start_service
+client = IbRubyProxy::Client::Client.new
 
 class MyWrapper < IbRubyProxy::Client::IbCallbacksWrapper
   def error(*arguments)
@@ -23,11 +22,15 @@ def emini
                                                    sec_type: 'FUT',
                                                    currency: 'USD',
                                                    exchange: 'GLOBEX',
-                                                   last_trade_date_or_contract_month: '201903'
+                                                   last_trade_date_or_contract_month: '201906'
   contract
 end
 
-client.add_ib_callbacks_wrapper MyWrapper.new
-client.req_historical_ticks(18004, emini, "20190207 21:39:33", nil, 100, "TRADES", 1, false, nil)
+# client.add_ib_callbacks_wrapper MyWrapper.new
+promise = client.req_historical_ticks(18004, emini, "20190320 21:39:33", nil, 100, "TRADES", 1, false, nil)
+promise.then {|ticks|
+  puts "PROMISE RESOLVED"
+  ap ticks
+}
 
 sleep
