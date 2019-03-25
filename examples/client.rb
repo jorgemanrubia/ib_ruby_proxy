@@ -28,9 +28,9 @@ end
 
 # client.add_ib_callbacks_wrapper MyWrapper.new
 promise = client.req_historical_ticks(18004, emini, "20190320 21:39:33", nil, 100, "TRADES", 1, false, nil)
-promise.then {|ticks|
+promise.then do |id, ticks, done|
   puts "PROMISE RESOLVED"
   ap ticks
-}
+end
 
 sleep
