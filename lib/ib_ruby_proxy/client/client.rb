@@ -3,33 +3,42 @@ require 'drb/timeridconv'
 module IbRubyProxy
   module Client
     class Client
-      attr_reader :drb_client
+      attr_reader :ib_client
 
-      def initialize(host: 'localhost', port: 1992)
-        @drb_client = DRbObject.new(nil, "druby://#{host}:#{port}")
-        DRb::DRbServer.verbose = true
-        DRb.install_id_conv ::DRb::TimerIdConv.new 60
-        DRb.start_service
+      def self.from_drb(host: 'localhost', port: 1992)
+        self.new(ib_client: create_drb_ib_client(host: host, port: port))
+      end
+
+      def initialize(ib_client)
+        @ib_client = ib_client
         @promises_by_request_id = {}
-        @drb_client.add_ib_callbacks_wrapper PromiseResolverCallbackWrapper.new(@promises_by_request_id)
+        @ib_client.add_ib_callbacks_observer PromiseResolverCallbackWrapper.new(@promises_by_request_id)
       end
 
       # We want to keep method_missing only for ib_methods...
-      def add_ib_callbacks_wrapper(client_ib_callbacks_wrapper)
-        @drb_client.add_ib_callbacks_wrapper(client_ib_callbacks_wrapper)
+      def add_ib_callbacks_observer(client_ib_callbacks_wrapper)
+        @ib_client.add_ib_callbacks_observer(client_ib_callbacks_wrapper)
       end
 
       private
 
+      def create_drb_ib_client(host:, port:)
+        drb_ib_client = DRbObject.new(nil, "druby://#{host}:#{port}")
+        DRb::DRbServer.verbose = true
+        DRb.install_id_conv ::DRb::TimerIdConv.new 60
+        DRb.start_service
+        drb_ib_client
+      end
+
       def respond_to_missing?(name, include_private = false)
-        @drb_client.respond_to?(name, include_private)
+        @ib_client.respond_to?(name, include_private)
       end
 
       def method_missing(method, *args, &block)
         promise = Concurrent::Promises.resolvable_future
         request_id = args.first
         @promises_by_request_id[request_id] = promise
-        @drb_client.public_send(method, *args, &block)
+        @ib_client.public_send(method, *args, &block)
         promise
       end
 
