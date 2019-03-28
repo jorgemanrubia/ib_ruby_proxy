@@ -1,6 +1,6 @@
 module IbRubyProxy
   module Client
-    class IbCallbacksResponseHandler
+    class CallbacksResponseHandler
       def initialize
         @method_handlers = {}
         @callback_handlers = {}
@@ -43,15 +43,18 @@ module IbRubyProxy
 
         def initialize(discriminate_by_argument_nth)
           @discriminate_by_argument_nth = discriminate_by_argument_nth
+          @promises_by_key = {}
         end
 
         def method_invoked(*arguments)
-          raise "Configured with a promise and invoked more than once?" if @promise
-          @promise = Concurrent::Promises.resolvable_future
+          key = arguments[discriminate_by_argument_nth]
+          raise "Configured with a promise and invoked more than once?" if @promises_by_key[key]
+          @promises_by_key[key] = Concurrent::Promises.resolvable_future
         end
 
         def callback_received(*arguments)
-          @promise.fulfill arguments
+          key = arguments[discriminate_by_argument_nth]
+          @promises_by_key[key]&.fulfill arguments
         end
       end
     end
