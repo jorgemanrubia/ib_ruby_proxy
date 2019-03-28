@@ -6,23 +6,19 @@ module IbRubyProxy
       attr_reader :ib_client
 
       def self.from_drb(host: 'localhost', port: 1992)
-        self.new(ib_client: create_drb_ib_client(host: host, port: port))
+        self.new(create_drb_ib_client(host: host, port: port))
       end
 
       def initialize(ib_client)
         @ib_client = ib_client
         @promises_by_request_id = {}
-        @ib_client.add_ib_callbacks_observer PromiseResolverCallbackWrapper.new(@promises_by_request_id)
-      end
-
-      # We want to keep method_missing only for ib_methods...
-      def add_ib_callbacks_observer(client_ib_callbacks_wrapper)
-        @ib_client.add_ib_callbacks_observer(client_ib_callbacks_wrapper)
+        @callbacks_response_handler = CallbacksResponseHandler.for_ib
+        @ib_client.add_ib_callbacks_observer ResponseHandleObserver.new(@callbacks_response_handler)
       end
 
       private
 
-      def create_drb_ib_client(host:, port:)
+      def self.create_drb_ib_client(host:, port:)
         drb_ib_client = DRbObject.new(nil, "druby://#{host}:#{port}")
         DRb::DRbServer.verbose = true
         DRb.install_id_conv ::DRb::TimerIdConv.new 60
@@ -34,32 +30,23 @@ module IbRubyProxy
         @ib_client.respond_to?(name, include_private)
       end
 
-      def method_missing(method, *args, &block)
-        promise = Concurrent::Promises.resolvable_future
-        request_id = args.first
-        @promises_by_request_id[request_id] = promise
-        @ib_client.public_send(method, *args, &block)
-        promise
+      def method_missing(method, *arguments, &block)
+        @ib_client.pu
+        blic_send(method, *arguments, &block)
+        @callbacks_response_handler.method_invoked method, *arguments
+      end
+    end
+
+    class ResponseHandleObserver
+      include DRb::DRbUndumped
+
+      def initialize(callbacks_response_handler)
+        @callbacks_response_handler = callbacks_response_handler
       end
 
-      class PromiseResolverCallbackWrapper
-        include IbRubyProxy::Util::HasLogger
-
-        include DRb::DRbUndumped
-
-        attr_reader :promises_by_request_id
-
-        def initialize(promises_by_request_id)
-          @promises_by_request_id = promises_by_request_id
-        end
-
-        def update(*params)
-          _, *arguments = params
-          request_id = arguments.first
-          promise = promises_by_request_id[request_id]
-          promise.fulfill(arguments)
-          promises_by_request_id.delete request_id
-        end
+      def update(*params)
+        method, *arguments = params
+        @callbacks_response_handler.callback_received(method, *arguments)
       end
     end
   end
