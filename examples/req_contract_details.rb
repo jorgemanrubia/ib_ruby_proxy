@@ -10,7 +10,9 @@ promise = client.req_contract_details(18009, Securities.emini).then do |contract
   end
 end
 
-promise.value # block until promise resolved
+promise.rescue { |error| puts "Error receiving contract details: #{error}" }
+
+promise.value
 
 DRb.stop_service
 
