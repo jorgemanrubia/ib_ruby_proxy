@@ -120,7 +120,7 @@ module IbRubyProxy
 
           case callback_name.to_s
           when done_callback.to_s
-            promise&.fulfill @results
+            promise&.fulfill @results_by_key[key]
           when 'error'
             reject_promise_on_error(promise, arguments)
           else
