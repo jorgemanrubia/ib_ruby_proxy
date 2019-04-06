@@ -111,11 +111,12 @@ module IbRubyProxy
           super(discriminate_by_argument_nth)
           @done_callback = done_callback
           @promises_by_key = {}
-          @results = []
+          @results_by_key = {}
         end
 
         def callback_received(*arguments, callback_name: nil)
           promise = promise_for_arguments(arguments)
+          key = arguments[discriminate_by_argument_nth]
 
           case callback_name.to_s
           when done_callback.to_s
@@ -123,7 +124,8 @@ module IbRubyProxy
           when 'error'
             reject_promise_on_error(promise, arguments)
           else
-            @results << arguments
+            @results_by_key[key] ||= []
+            @results_by_key[key] << arguments
           end
         end
       end
