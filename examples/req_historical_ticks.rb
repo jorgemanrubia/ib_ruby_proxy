@@ -10,5 +10,7 @@ end
 
 promise.value # block until promise resolved
 
+DRb.stop_service
+
 
 
