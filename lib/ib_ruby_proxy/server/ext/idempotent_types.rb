@@ -18,6 +18,6 @@ module IbRubyProxy
   end
 end
 
-[String, Integer, Float, NilClass, TrueClass, FalseClass, Enum, Throwable].each do |klass|
+[String, Integer, Float, NilClass, TrueClass, FalseClass, Throwable].each do |klass|
   klass.include IbRubyProxy::Server::Ext::IdempotentType
 end
