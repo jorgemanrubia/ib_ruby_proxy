@@ -31,7 +31,7 @@ describe IbRubyProxy::Server::IbRubyClassSourceGenerator do
 
         expect(ruby_contract).to be_instance_of(IbRubyProxy::Client::Ib::Test2::Contract)
         expect(ruby_contract.symbol).to eq('ES')
-        expect(ruby_contract.sec_type).to eq(Types::SecType::FUT)
+        expect(ruby_contract.sec_type).to eq('FUT')
         expect(ruby_contract.currency).to eq('USD')
         expect(ruby_contract.exchange).to eq('GLOBEX')
         expect(ruby_contract.last_trade_date_or_contract_month).to eq('201903')
