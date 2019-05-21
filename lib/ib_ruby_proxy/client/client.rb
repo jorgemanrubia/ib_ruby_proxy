@@ -32,7 +32,7 @@ module IbRubyProxy
 
       def method_missing(method, *arguments, &block)
         @ib_client.public_send(method, *arguments, &block)
-        @callbacks_response_handler.method_invoked method, *arguments
+        @callbacks_response_handler.method_invoked method, *arguments, &block
       end
     end
 
