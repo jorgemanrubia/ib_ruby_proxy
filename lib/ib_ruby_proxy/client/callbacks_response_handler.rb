@@ -157,12 +157,11 @@ module IbRubyProxy
         end
 
         def method_invoked(*arguments, &block)
-          raise ArgumentError, 'Please provide a block to be invoked with callbacks' unless block_given?
           @block = block
         end
 
         def callback_received(*arguments, callback_name: nil)
-          @block.call(*arguments)
+          @block&.call(*arguments)
         end
       end
     end
