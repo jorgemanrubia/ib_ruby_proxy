@@ -6,9 +6,9 @@ module IbRubyProxy
         @callback_handlers = {}
       end
 
-      def method_invoked(method_name, *arguments)
+      def method_invoked(method_name, *arguments, &block)
         method_name = method_name.to_sym
-        method_handlers[method_name]&.method_invoked(*arguments)
+        method_handlers[method_name]&.method_invoked(*arguments, &block)
       end
 
       def callback_received(callback_name, *arguments)
@@ -53,11 +53,10 @@ module IbRubyProxy
         configure_method_handler(method, handler)
       end
 
-      def configure_block_callback(method:, callback:, discriminate_by_argument_nth:, &block)
+      def configure_block_callback(method:, callback:, discriminate_by_argument_nth:)
         validate_can_add_callback_on_method!(method)
-        raise ArgumentError, 'Please provide a block to be invoked with callbacks' unless block_given?
 
-        handler = CallbackResponseHandler.new(discriminate_by_argument_nth, &block)
+        handler = CallbackResponseHandler.new(discriminate_by_argument_nth)
 
         configure_callback_handler(callback, handler)
         configure_method_handler(method, handler)
@@ -153,12 +152,13 @@ module IbRubyProxy
 
         attr_reader :discriminate_by_argument_nth, :block
 
-        def initialize(discriminate_by_argument_nth, &block)
+        def initialize(discriminate_by_argument_nth)
           @discriminate_by_argument_nth = discriminate_by_argument_nth
-          @block = block
         end
 
-        def method_invoked(*arguments)
+        def method_invoked(*arguments, &block)
+          raise ArgumentError, 'Please provide a block to be invoked with callbacks' unless block_given?
+          @block = block
         end
 
         def callback_received(*arguments, callback_name: nil)

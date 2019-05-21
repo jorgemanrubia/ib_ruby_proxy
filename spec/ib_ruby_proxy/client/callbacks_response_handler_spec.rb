@@ -52,14 +52,13 @@ describe IbRubyProxy::Client::CallbacksResponseHandler do
       it 'allows handling callbacks invoking a block with each response' do
         callbacks_response_handler.configure_block_callback method: :some_method,
                                                             callback: :response_callback,
-                                                            discriminate_by_argument_nth: 0,
-                                                            &proc
+                                                            discriminate_by_argument_nth: 0
 
-        def client.some_method(id, name)
-          callbacks_response_handler.method_invoked(:some_method, id, name)
+        def client.some_method(id, name, &block)
+          callbacks_response_handler.method_invoked(:some_method, id, name, &block)
         end
 
-        client.some_method(1, 'some param')
+        client.some_method(1, 'some param', &proc)
 
         expect(proc).to receive(:call).with(1, 'value 1-1', 'value 1-2').ordered
         expect(proc).to receive(:call).with(1, 'value 1-3', 'value 1-4').ordered
