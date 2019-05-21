@@ -27,11 +27,15 @@ module IbRubyProxy
                                                             callback: %i(contract_details error),
                                                             done_callback: :contract_details_end,
                                                             discriminate_by_argument_nth: 0
+
+          handler.configure_block_callback method: :req_tick_by_tick_data,
+                                                            callback: %i(tick_by_tick_bid_ask tick_by_tick_all_last tick_by_tick_mid_point error),
+                                                            discriminate_by_argument_nth: 0
         end
       end
 
       def configure_single_response_promise_callback(method:, callback:, discriminate_by_argument_nth: 0)
-        raise "Already configured handler for #{method}" if method_handlers[method]
+        validate_can_add_callback_on_method!(method)
 
         handler = PromiseSingleResponseHandler.new(discriminate_by_argument_nth)
 
@@ -40,12 +44,22 @@ module IbRubyProxy
       end
 
       def configure_multi_response_promise_callback(method:, callback:, done_callback:, discriminate_by_argument_nth: 0)
-        raise "Already configured handler for #{method}" if method_handlers[method]
+        validate_can_add_callback_on_method!(method)
 
         handler = PromiseMultipleResponseHandler.new(discriminate_by_argument_nth, done_callback)
 
         configure_callback_handler(callback, handler)
         configure_callback_handler(done_callback, handler)
+        configure_method_handler(method, handler)
+      end
+
+      def configure_block_callback(method:, callback:, discriminate_by_argument_nth:, &block)
+        validate_can_add_callback_on_method!(method)
+        raise ArgumentError, 'Please provide a block to be invoked with callbacks' unless block_given?
+
+        handler = CallbackResponseHandler.new(discriminate_by_argument_nth, &block)
+
+        configure_callback_handler(callback, handler)
         configure_method_handler(method, handler)
       end
 
@@ -62,6 +76,10 @@ module IbRubyProxy
         callback.each do |callback_name|
           callback_handlers[callback_name.to_sym] = handler
         end
+      end
+
+      def validate_can_add_callback_on_method!(method)
+        raise "Already configured handler for #{method}" if method_handlers[method]
       end
 
       class PromiseSingleResponseHandler
@@ -127,6 +145,24 @@ module IbRubyProxy
             @results_by_key[key] ||= []
             @results_by_key[key] << arguments
           end
+        end
+      end
+
+      class CallbackResponseHandler
+        include IbRubyProxy::Util::HasLogger
+
+        attr_reader :discriminate_by_argument_nth, :block
+
+        def initialize(discriminate_by_argument_nth, &block)
+          @discriminate_by_argument_nth = discriminate_by_argument_nth
+          @block = block
+        end
+
+        def method_invoked(*arguments)
+        end
+
+        def callback_received(*arguments, callback_name: nil)
+          @block.call(*arguments)
         end
       end
     end
