@@ -161,7 +161,11 @@ module IbRubyProxy
         end
 
         def callback_received(*arguments, callback_name: nil)
-          @block&.call(*arguments)
+          if callback_name.to_s == 'error'
+            raise StandardError, arguments.join('. ')
+          else
+            @block&.call(*arguments)
+          end
         end
       end
     end
