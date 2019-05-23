@@ -1,7 +1,7 @@
 describe IbRubyProxy::Client::CallbacksResponseHandler do
   describe 'Promises' do
     subject(:callbacks_response_handler) { IbRubyProxy::Client::CallbacksResponseHandler.new }
-    let(:client) { double 'dummy client', callbacks_response_handler: callbacks_response_handler }
+    let(:client) { double 'dummy client', callbacks_response_handler: callbacks_response_handler, error: nil }
 
     describe '#configure_single_response_promise_callback' do
       it 'allows handling callbacks as promises by matching them via a param' do
@@ -67,6 +67,14 @@ describe IbRubyProxy::Client::CallbacksResponseHandler do
         callbacks_response_handler.callback_received(:response_callback, 1, 'value 1-1', 'value 1-2')
         callbacks_response_handler.callback_received(:response_callback, 1, 'value 1-3', 'value 1-4')
         callbacks_response_handler.callback_received(:response_callback, 2, 'value 2-1', 'value 2-2')
+      end
+
+      it 'triggers an exception when the error callback is invoked' do
+        callbacks_response_handler.configure_block_callback method: :some_method,
+                                                            callback: :error,
+                                                            discriminate_by_argument_nth: 0
+
+        expect{ callbacks_response_handler.callback_received(:error, 'some', 'error')}.to raise_error('some. error')
       end
     end
 
