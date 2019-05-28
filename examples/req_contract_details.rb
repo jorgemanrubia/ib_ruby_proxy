@@ -12,5 +12,5 @@ promise.rescue { |error| puts "Error receiving contract details: #{error}" }
 
 promise.value
 
-DRb.stop_service
+
 
