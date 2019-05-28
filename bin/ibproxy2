@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'commander/import'
+
+$LOAD_PATH.unshift './lib'
+$LOAD_PATH.unshift File.join(__dir__, '..')
+$LOAD_PATH.unshift File.join(__dir__, '..', 'lib')
+
+require 'ib_ruby_proxy'
+require 'server'
+
+program :name, 'ibproxy'
+program :version, IbRubyProxy::VERSION
+program :description, 'Invoke Interactive Brokers API from Ruby'
+default_command :server
+
+command :server do |c|
+  c.syntax = 'ibproxy server [options]'
+  c.summary = 'Start ibproxy server'
+  c.option '--ib-port PORT', Integer, "Interactive brokers client port. #{IbRubyProxy::Server::IbProxyService::DEFAULT_IB_GATEWAY_PORT} by default (Gateway). Default for TWS is whatever"
+  c.option '--drb-port PORT', Integer, "Port for the served drb endpoint. #{IbRubyProxy::Server::IbProxyService::DEFAULT_DRB_PORT} by default"
+  c.action do |args, options|
+    options.default ib_port: IbRubyProxy::Server::IbProxyService::DEFAULT_IB_GATEWAY_PORT,
+                    drb_port: IbRubyProxy::Server::IbProxyService::DEFAULT_DRB_PORT
+    ib_port = options.ib_port
+    drb_port = options.drb_port
+    puts "Starting with ib port #{ib_port} and drb port: #{drb_port}..."
+    IbRubyProxy::Server::IbProxyService.new(ib_port: ib_port.to_i, drb_port: drb_port.to_i).start
+  end
+end
+
