@@ -1,6 +1,4 @@
-require 'drb'
-require 'ib_ruby_proxy'
-require_relative './securities'
+require_relative './common'
 
 client = IbRubyProxy::Client::Client.from_drb
 
