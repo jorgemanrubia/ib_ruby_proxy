@@ -26,7 +26,7 @@ command :server do |c|
     ib_port = options.ib_port
     drb_port = options.drb_port
     puts "Starting with ib port #{ib_port} and drb port #{drb_port}..."
-    IbRubyProxy::Server::IbProxyService.new(ib_port: ib_port.to_i, drb_port: drb_port.to_i).start
+    IbRubyProxy::Server::IbProxyService.new(ib_port: ib_port, drb_port: drb_port).start
   end
 end
 
