@@ -31,8 +31,14 @@ module IbRubyProxy
           handler.configure_block_callback method: :req_tick_by_tick_data,
                                                             callback: %i(tick_by_tick_bid_ask tick_by_tick_all_last tick_by_tick_mid_point error),
                                                             discriminate_by_argument_nth: 0
+
           handler.configure_block_callback method: :req_positions,
-                                                            callback: %i(position error),
+                                           callback: %i(position error),
+                                           discriminate_by_argument_nth: 0
+
+          # @todo this is wrong, just for debugging...
+          handler.configure_block_callback method: :req_account_updates,
+                                                            callback: %i(update_account_value update_portfolio update_account_time error),
                                                             discriminate_by_argument_nth: 0
         end
       end
