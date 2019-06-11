@@ -1,6 +1,12 @@
 module IbRubyProxy
   module Client
     class CallbacksResponseHandler
+      IB_CALLBACKS_MAPPING = {
+          req_historical_ticks: { callbacks: %i(historical_ticks historical_ticks_bid_ask historical_ticks_last), discriminate_by_argument_nth: 0 },
+          req_contract_details: { callbacks: %i(contract_details contract_details_end), discriminate_by_argument_nth: 0 },
+          req_tick_by_tick_data: { callbacks: %i(tick_by_tick_bid_ask tick_by_tick_all_last tick_by_tick_mid_point), discriminate_by_argument_nth: 0 }
+      }
+
       def initialize
         @method_handlers = {}
         @callback_handlers = {}
@@ -19,30 +25,15 @@ module IbRubyProxy
       # @todo: Move outside of this class when we add more options
       def self.for_ib
         self.new.tap do |handler|
-          handler.configure_block_callback method: :req_historical_ticks,
-                                           callback: %i(historical_ticks historical_ticks_bid_ask historical_ticks_last),
-                                           discriminate_by_argument_nth: 0
-
-          handler.configure_block_callback method: :req_contract_details,
-                                           callback: %i(contract_details contract_details_end),
-                                           discriminate_by_argument_nth: 0
-
-          handler.configure_block_callback method: :req_tick_by_tick_data,
-                                           callback: %i(tick_by_tick_bid_ask tick_by_tick_all_last tick_by_tick_mid_point),
-                                           discriminate_by_argument_nth: 0
-
-          handler.configure_block_callback method: :req_positions,
-                                           callback: %i(position error),
-                                           discriminate_by_argument_nth: 0
-
-          # @todo this is wrong, just for debugging...
-          handler.configure_block_callback method: :req_account_updates,
-                                           callback: %i(update_account_value update_portfolio update_account_time),
-                                           discriminate_by_argument_nth: 0
+          IB_CALLBACKS_MAPPING.each do |method, callback_config|
+            handler.configure_block_callback method: method.to_sym,
+                                             callback: callback_config.callbacks,
+                                             discriminate_by_argument_nth: callback_config[:discriminate_by_argument_nth]
+          end
         end
       end
 
-      def configure_block_callback(method:, callback:, discriminate_by_argument_nth:)
+      def configure_block_callback(method:, callback:, discriminate_by_argument_nth: nil)
         validate_can_add_callback_on_method!(method)
 
         handler = CallbackResponseHandler.new(discriminate_by_argument_nth)
@@ -78,17 +69,30 @@ module IbRubyProxy
 
         def initialize(discriminate_by_argument_nth)
           @discriminate_by_argument_nth = discriminate_by_argument_nth
+          @blocks_by_discriminator = {}
         end
 
         def method_invoked(*arguments, &block)
-          @block = block
+          if @discriminate_by_argument_nth
+            discrminator = arguments[@discriminate_by_argument_nth]
+            raise "No argument #{@discriminate_by_argument_nth} to discriminate with? #{arguments.inspect}" unless discrminator
+            @blocks_by_discriminator[discrminator] = block
+          else
+            @block = block
+          end
         end
 
         def callback_received(callback_name, *arguments)
           if callback_name.to_s == 'error'
             raise StandardError, arguments.join('. ')
           else
-            @block&.call(callback_name, *arguments)
+            block = if @discriminate_by_argument_nth
+                      @blocks_by_discriminator[arguments[@discriminate_by_argument_nth]]
+                    else
+                      @block
+                    end
+
+            block&.call(callback_name, *arguments)
           end
         end
       end
