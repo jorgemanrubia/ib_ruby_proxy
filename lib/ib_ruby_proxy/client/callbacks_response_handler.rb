@@ -27,7 +27,7 @@ module IbRubyProxy
         self.new.tap do |handler|
           IB_CALLBACKS_MAPPING.each do |method, callback_config|
             handler.configure_block_callback method: method.to_sym,
-                                             callback: callback_config.callbacks,
+                                             callback: callback_config[:callbacks],
                                              discriminate_by_argument_nth: callback_config[:discriminate_by_argument_nth]
           end
         end
