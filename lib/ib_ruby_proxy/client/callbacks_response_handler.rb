@@ -80,6 +80,7 @@ module IbRubyProxy
           else
             @block = block
           end
+          nil
         end
 
         def callback_received(callback_name, *arguments)
