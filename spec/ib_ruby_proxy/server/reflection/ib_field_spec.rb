@@ -3,9 +3,8 @@ java_import 'com.ib.client.Contract'
 java_import 'com.ib.client.ComboLeg'
 require 'jruby/core_ext'
 
-
 describe IbRubyProxy::Server::Reflection::IbField do
-  subject(:ib_class) {IbRubyProxy::Server::Reflection::IbClass.new(Java::ComIbClient::Contract)}
+  subject(:ib_class) { IbRubyProxy::Server::Reflection::IbClass.new(Java::ComIbClient::Contract) }
 
   describe '#default_value' do
     it 'returns 0 for numeric values' do
@@ -47,6 +46,6 @@ describe IbRubyProxy::Server::Reflection::IbField do
   end
 
   def find_field(name)
-    ib_class.java_property_fields.find {|field| field.name == name}.java_field
+    ib_class.java_property_fields.find { |field| field.name == name }.java_field
   end
 end

@@ -12,4 +12,3 @@ class Securities
     end
   end
 end
-

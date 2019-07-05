@@ -1,4 +1,4 @@
-require "ib_ruby_proxy/version"
+require 'ib_ruby_proxy/version'
 require_relative 'ib_callbacks_adapter_wrapper'
 require_relative 'ib_client_adapter'
 require 'drb'
@@ -25,13 +25,14 @@ module IbRubyProxy
         @client = wrapper.client
         @signal = wrapper.signal
 
-        connect()
+        connect
       end
 
       def start
         DRb.start_service("druby://#{drb_host}:#{drb_port}", ib_client_adapter, verbose: true)
         start_ib_message_processing_thread
-        puts "Ib proxy server started at druby://#{drb_host}:#{drb_port}. Connected to IB at #{ib_host}:#{ib_port}"
+        puts "Ib proxy server started at druby://#{drb_host}:#{drb_port}. Connected to IB at"\
+             " #{ib_host}:#{ib_port}"
         DRb.thread.join
       end
 
@@ -47,7 +48,7 @@ module IbRubyProxy
           while client.isConnected
             signal.waitForSignal
             begin
-              reader.processMsgs();
+              reader.processMsgs
             rescue StandardError => e
               puts "Error while processing ib message: #{e}"
             end

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe IbRubyProxy::Util::StringUtils do
-  include IbRubyProxy::Util::StringUtils
+  include described_class
 
   describe '#underscore' do
     it 'converts camel case strings to underscore' do

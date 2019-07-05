@@ -6,7 +6,7 @@ module IbRubyProxy
       attr_reader :ib_client
 
       def self.from_drb(host: 'localhost', port: 1992)
-        self.new(create_drb_ib_client(host: host, port: port))
+        new(create_drb_ib_client(host: host, port: port))
       end
 
       def initialize(ib_client)
@@ -16,8 +16,6 @@ module IbRubyProxy
         @ib_client.add_ib_callbacks_observer ResponseHandleObserver.new(@callbacks_response_handler)
       end
 
-      private
-
       def self.create_drb_ib_client(host:, port:)
         drb_ib_client = DRbObject.new(nil, "druby://#{host}:#{port}")
         DRb::DRbServer.verbose = true
@@ -25,6 +23,8 @@ module IbRubyProxy
         DRb.start_service
         drb_ib_client
       end
+
+      private
 
       def respond_to_missing?(name, include_private = false)
         @ib_client.respond_to?(name, include_private)

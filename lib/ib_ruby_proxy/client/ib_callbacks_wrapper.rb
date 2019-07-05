@@ -13,10 +13,9 @@ module IbRubyProxy
       end
 
       def error(*arguments)
-        logger.error "Error received in ib wrapper:"
+        logger.error 'Error received in ib wrapper:'
         logger.error arguments.inspect
       end
-
     end
   end
 end

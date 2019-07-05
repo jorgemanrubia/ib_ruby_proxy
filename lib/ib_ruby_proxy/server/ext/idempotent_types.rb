@@ -1,5 +1,5 @@
-java_import "java.lang.Enum"
-java_import "java.lang.Throwable"
+java_import 'java.lang.Enum'
+java_import 'java.lang.Throwable'
 
 module IbRubyProxy
   module Server
