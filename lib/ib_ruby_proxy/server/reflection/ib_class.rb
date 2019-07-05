@@ -19,7 +19,7 @@ module IbRubyProxy
         end
 
         def java_property_fields
-          @java_property_fields ||= java_fields.collect{|field| IbField.new(field, self)}
+          @java_property_fields ||= java_fields.collect { |field| IbField.new(field, self) }
         end
 
         def ruby_properties
@@ -35,7 +35,9 @@ module IbRubyProxy
         private
 
         def java_fields
-          @java_property_fields ||= klass.java_class.declared_fields.find_all {|field| field.name =~ IbField::IB_FIELD_PREFIX}
+          @java_property_fields ||= klass.java_class.declared_fields.find_all do |field|
+            field.name =~ IbField::IB_FIELD_PREFIX
+          end
         end
       end
     end

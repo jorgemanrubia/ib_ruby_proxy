@@ -9,6 +9,9 @@ Metrics/LineLength:
 Metrics/AbcSize:
   Enabled: false
 
+Security/Eval:
+  Enabled: false
+
 Metrics/CyclomaticComplexity:
   Enabled: false
 

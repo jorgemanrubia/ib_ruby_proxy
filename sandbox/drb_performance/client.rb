@@ -1,8 +1,9 @@
 require 'drb'
 require 'benchmark'
 
-# This is a dummy performance test to have an idea of drb throughput. I got it's possible to process 10000 notifications
-# per second with MRI ruby 2.5, which should be enough for real time tick data.
+# This is a dummy performance test to have an idea of drb throughput. I got it's possible to
+# process 10000 notifications per second with MRI ruby 2.5, which should be enough for real
+# time tick data.
 class ResultCallback
   include DRbUndumped
 
@@ -12,12 +13,12 @@ class ResultCallback
     @total = 0
   end
 
-  def update(number1, number2, result)
+  def update(_number1, _number2, result)
     @total += result
   end
 end
 
-@server = DRbObject.new(nil, "druby://localhost:1992")
+@server = DRbObject.new(nil, 'druby://localhost:1992')
 DRb.start_service
 
 result_callback = ResultCallback.new
@@ -27,15 +28,14 @@ LOOP_COUNT = 10000
 
 drb_benchmark = Benchmark.measure do
   LOOP_COUNT.times do |i|
-    @server.add(i, i+1)
+    @server.add(i, i + 1)
   end
-
 end
 
 total = 0
 ruby_benchmark = Benchmark.measure do
   LOOP_COUNT.times do |i|
-    total += (i + (i+1))
+    total += (i + (i + 1))
   end
 end
 

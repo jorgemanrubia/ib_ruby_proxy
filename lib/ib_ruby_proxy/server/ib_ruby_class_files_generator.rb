@@ -3,8 +3,9 @@ module IbRubyProxy
     class IbRubyClassFilesGenerator
       attr_reader :client_code_dir, :server_code_dir
 
-      RUBY_CLASSES = %w(ComboLeg DeltaNeutralContract Contract Order HistoricalTickLast TickAttribLast Bar HistoricalTick
-                        TickAttribBidAsk HistoricalTickLast TickAttribLast HistoricalTickBidAsk ContractDetails)
+      RUBY_CLASSES = %w[ComboLeg DeltaNeutralContract Contract Order HistoricalTickLast
+                        TickAttribLast Bar HistoricalTick TickAttribBidAsk HistoricalTickLast
+                        TickAttribLast HistoricalTickBidAsk ContractDetails].freeze
 
       RUBY_CLASSES.each do |class_name|
         java_import "com.ib.client.#{class_name}"
@@ -30,7 +31,8 @@ module IbRubyProxy
 
       def generate_files(class_name)
         ib_class = Java::ComIbClient.const_get(class_name)
-        generator = IbRubyProxy::Server::IbRubyClassSourceGenerator.new(ib_class, namespace: 'IbRubyProxy::Client::Ib')
+        generator = IbRubyClassSourceGenerator.new(ib_class,
+                                                   namespace: 'IbRubyProxy::Client::Ib')
 
         file_name = "#{IbRubyProxy::Util::StringUtils.to_underscore(class_name)}.rb"
         generate_client_file(generator, file_name)
@@ -40,13 +42,13 @@ module IbRubyProxy
       def generate_client_file(generator, file_name)
         target_file = File.join(client_code_dir, file_name)
         puts "Generating client file: #{target_file}..."
-        File.open(target_file, 'w') {|file| file.write(generator.ruby_class_source)}
+        File.open(target_file, 'w') { |file| file.write(generator.ruby_class_source) }
       end
 
       def generate_server_file(generator, file_name)
         target_file = File.join(server_code_dir, file_name)
         puts "Generating server file: #{target_file}..."
-        File.open(target_file, 'w') {|file| file.write(generator.ib_class_extension_source)}
+        File.open(target_file, 'w') { |file| file.write(generator.ib_class_extension_source) }
       end
 
       def format_code

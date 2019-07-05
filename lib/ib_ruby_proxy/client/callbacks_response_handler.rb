@@ -2,11 +2,18 @@ module IbRubyProxy
   module Client
     class CallbacksResponseHandler
       IB_CALLBACKS_MAPPING = {
-          req_historical_ticks: { callbacks: %i(historical_ticks historical_ticks_bid_ask historical_ticks_last), discriminate_by_argument_nth: 0 },
-          req_contract_details: { callbacks: %i(contract_details contract_details_end), discriminate_by_argument_nth: 0 },
-          req_tick_by_tick_data: { callbacks: %i(tick_by_tick_bid_ask tick_by_tick_all_last tick_by_tick_mid_point), discriminate_by_argument_nth: 0 },
-          req_historical_data: { callbacks: %i(historical_data historical_data_end historical_data_update), discriminate_by_argument_nth: 0 }
-      }
+        req_historical_ticks: { callbacks: %i[historical_ticks historical_ticks_bid_ask
+                                              historical_ticks_last],
+                                discriminate_by_argument_nth: 0 },
+        req_contract_details: { callbacks: %i[contract_details contract_details_end],
+                                discriminate_by_argument_nth: 0 },
+        req_tick_by_tick_data: { callbacks: %i[tick_by_tick_bid_ask tick_by_tick_all_last
+                                               tick_by_tick_mid_point],
+                                 discriminate_by_argument_nth: 0 },
+        req_historical_data: { callbacks: %i[historical_data historical_data_end
+                                             historical_data_update],
+                               discriminate_by_argument_nth: 0 }
+      }.freeze
 
       def initialize
         @method_handlers = {}
@@ -25,11 +32,12 @@ module IbRubyProxy
 
       # @todo: Move outside of this class when we add more options
       def self.for_ib
-        self.new.tap do |handler|
+        new.tap do |handler|
           IB_CALLBACKS_MAPPING.each do |method, callback_config|
+            nth_argument = callback_config[:discriminate_by_argument_nth]
             handler.configure_block_callback method: method.to_sym,
                                              callback: callback_config[:callbacks],
-                                             discriminate_by_argument_nth: callback_config[:discriminate_by_argument_nth]
+                                             discriminate_by_argument_nth: nth_argument
           end
         end
       end
@@ -76,7 +84,11 @@ module IbRubyProxy
         def method_invoked(*arguments, &block)
           if @discriminate_by_argument_nth
             discrminator = arguments[@discriminate_by_argument_nth]
-            raise "No argument #{@discriminate_by_argument_nth} to discriminate with? #{arguments.inspect}" unless discrminator
+            unless discrminator
+              raise "No argument #{@discriminate_by_argument_nth} to discriminate with?"\
+                    " #{arguments.inspect}"
+            end
+
             @blocks_by_discriminator[discrminator] = block
           else
             @block = block

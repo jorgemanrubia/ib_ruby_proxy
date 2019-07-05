@@ -7,5 +7,3 @@ client.req_contract_details(18009, Securities.emini) do |_callback, _request_id,
 end
 
 sleep
-
-

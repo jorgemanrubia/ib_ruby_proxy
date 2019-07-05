@@ -2,7 +2,7 @@ require 'spec_helper'
 java_import 'com.ib.client.Contract'
 
 describe IbRubyProxy::Server::Reflection::IbClass do
-  subject(:ib_class){IbRubyProxy::Server::Reflection::IbClass.new(Java::ComIbClient::Contract)}
+  subject(:ib_class) { described_class.new(Java::ComIbClient::Contract) }
 
   describe '#name' do
     it 'returns the simple class name' do
