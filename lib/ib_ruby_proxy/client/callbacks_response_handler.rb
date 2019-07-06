@@ -1,5 +1,8 @@
 module IbRubyProxy
   module Client
+    # This class maps callbacks with method invocations that originated them so that
+    # a block can be passed to the api method and it will be invoked when a callback is
+    # received
     class CallbacksResponseHandler
       IB_CALLBACKS_MAPPING = {
         req_historical_ticks: { callbacks: %i[historical_ticks historical_ticks_bid_ask
@@ -20,17 +23,27 @@ module IbRubyProxy
         @callback_handlers = {}
       end
 
+      # Handle invoked method
+      #
+      # @param [String, Symbol] method_name
+      # @param [Array<Object>] arguments
+      # @param [Proc] block
       def method_invoked(method_name, *arguments, &block)
         method_name = method_name.to_sym
         method_handlers[method_name]&.method_invoked(*arguments, &block)
       end
 
+      # Handle callback received: it will invoke the block passed in the corresponding
+      # {#method_invoked}, if any.
+      #
+      # @param [Symbol] callback_name
+      # @param [Array<Object>] arguments
       def callback_received(callback_name, *arguments)
         callback_name = callback_name.to_sym
         callback_handlers[callback_name]&.callback_received(callback_name, *arguments)
       end
 
-      # @todo: Move outside of this class when we add more options
+      # @private
       def self.for_ib
         new.tap do |handler|
           IB_CALLBACKS_MAPPING.each do |method, callback_config|
@@ -42,10 +55,17 @@ module IbRubyProxy
         end
       end
 
+      # Configures a mapping between a method invocation and a received callback
+      #
+      # @param [String, Symbol] method
+      # @param [String, Symbol] callback
+      # @param [Integer, nil] discriminate_by_argument_nth The position of the argument that
+      #   will be used to discriminate received callbacks and match them with invocation methods.
+      #   +nil+ indicates no argument should be used for discriminating (default)
       def configure_block_callback(method:, callback:, discriminate_by_argument_nth: nil)
         validate_can_add_callback_on_method!(method)
 
-        handler = CallbackResponseHandler.new(discriminate_by_argument_nth)
+        handler = BlockCallbackHandler.new(discriminate_by_argument_nth)
 
         configure_callback_handler(callback, handler)
         configure_method_handler(method, handler)
@@ -71,7 +91,8 @@ module IbRubyProxy
         raise "Already configured handler for #{method}" if method_handlers[method]
       end
 
-      class CallbackResponseHandler
+      @private
+      class BlockCallbackHandler
         include IbRubyProxy::Util::HasLogger
 
         attr_reader :discriminate_by_argument_nth, :block
