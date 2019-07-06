@@ -1,15 +1,33 @@
 module IbRubyProxy
   module Server
+    # Given a value object class from Interactive Broker API, this generator can build Ruby source
+    # code for:
+    #
+    # * A ruby class to manipulate the same class in Ruby
+    # * An extension to the original Java class for converting instances into Ruby
     class IbRubyClassSourceGenerator
       include IbRubyProxy::Util::StringUtils
 
       attr_reader :ib_class, :namespace_list
 
+      # @param [Class] ib_class Class from IB broker to mimic in Ruby. It is meant to be used with
+      #   value objects, as only properties are translated. That is the case for classes that
+      #   represent either arguments or returned values (via callbacks) in the API.
+      # @param [String] namespace The namespace to generate the classes in. Default
+      #   +IbRubyProxy::Client::Ib+
       def initialize(ib_class, namespace: 'IbRubyProxy::Client::Ib')
         @ib_class = Reflection::IbClass.new(ib_class)
         @namespace_list = namespace.split('::')
       end
 
+      # Source for a ruby class translates into Ruby the Java properties of the target
+      # ib class.
+      #
+      # It generates a {Struct} with the list of properties, that admits a keyword-based
+      # constructor, and that includes a +to_ib+ method for converting the ruby back into its
+      # original Java counterpart.
+      #
+      # @return [String]
       def ruby_class_source
         <<-RUBY
         #{header}
@@ -18,6 +36,10 @@ module IbRubyProxy
         RUBY
       end
 
+      # Source for a ruby class that extends the original IB Java class with a +to_ruby+ method,
+      # to convert Java Ib objects into their Ruby counterparts generated in {#ruby_class_source}
+      #
+      # @return [String]
       def ib_class_extension_source
         <<-RUBY
         #{header}
