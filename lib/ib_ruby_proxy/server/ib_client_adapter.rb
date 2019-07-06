@@ -5,14 +5,15 @@ module IbRubyProxy
     # This is the Ruby representation of the IB Java +EClient+ class. It adapts ruby invocations
     # and arguments to invoke the corresponding Java API methods.
     #
+    # It is the object DRb clients get when connecting to the {IbProxyService proxy service}.
+    #
     # Mimicking how the Java API works, it collaborates with an {IbWrapperAdapter} that
     # corresponds with an +EWrapper+ in the Java world. It works by observing callbacks
     # in this wrapper.
     #
     # The usage of observers as a communication mechanism is because it is supported
     # by DRb and, being DRb a standard implemented in JRuby, enables communicating Ruby and JRuby.
-    # We could certainly skip this level of indirection if supporting other rubies was not
-    # required
+    # If supporting other rubies was not required this level of indirection would be unnecessary.
     class IbClientAdapter
       extend IbRubyProxy::Util::StringUtils
 
