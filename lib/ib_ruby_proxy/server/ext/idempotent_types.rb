@@ -4,7 +4,7 @@ java_import 'java.lang.Throwable'
 module IbRubyProxy
   module Server
     module Ext
-      # To use with types that can travel seamlessly between Java and Ruby
+      # Extension to convert between ib and ruby for types that can travel seamlessly
       module IdempotentType
         def to_ib
           self
