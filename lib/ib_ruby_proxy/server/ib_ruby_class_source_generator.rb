@@ -90,7 +90,7 @@ module IbRubyProxy
       end
 
       def generate_class_declaration
-        struct_init_properties = ib_class.ruby_properties.collect { |property| ":#{property}" }
+        struct_init_properties = ib_class.ruby_property_names.collect { |property| ":#{property}" }
                                          .join(', ')
         struct_init_properties << ', keyword_init: true'
 
@@ -105,7 +105,7 @@ module IbRubyProxy
           "#{ruby_property}: #{java_field.default_value_as_string}"
         end
 
-        assignment_statements = ib_class.ruby_properties.collect do |ruby_property|
+        assignment_statements = ib_class.ruby_property_names.collect do |ruby_property|
           <<-RUBY
         self.#{ruby_property} = #{ruby_property}
           RUBY
