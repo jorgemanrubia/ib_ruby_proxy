@@ -2,13 +2,26 @@ require 'drb/timeridconv'
 
 module IbRubyProxy
   module Client
+    # A client for interacting with the DRb service
+    #
+    # If can be instantiated directly from the DRb service with {.create_drb_ib_client}
+    #
+    # It offers the same interface than a {IbRubyProxy::Server::IbClientAdapter} and, also,
+    # configures a {CallbacksResponseHandler} so that you can use Ruby blocks to capture
+    # callbacks invocations based on the semantics of the invoked methods.
+    #
+    # @see CallbacksResponseHandler
     class Client
       attr_reader :ib_client
 
+      # @return [Client]
+      # @param [String] host DRb host +localhost+ by default
+      # @param [Object] port DRb port +1992+ by default
       def self.from_drb(host: 'localhost', port: 1992)
         new(create_drb_ib_client(host: host, port: port))
       end
 
+      # @param [IbRubyProxy::Server::IbClientAdapter] ib_client
       def initialize(ib_client)
         @ib_client = ib_client
         @promises_by_request_id = {}
@@ -16,6 +29,7 @@ module IbRubyProxy
         @ib_client.add_ib_callbacks_observer ResponseHandleObserver.new(@callbacks_response_handler)
       end
 
+      # @private
       def self.create_drb_ib_client(host:, port:)
         drb_ib_client = DRbObject.new(nil, "druby://#{host}:#{port}")
         DRb::DRbServer.verbose = true
@@ -36,6 +50,9 @@ module IbRubyProxy
       end
     end
 
+    # An observer that will delegate callbacks to a {CallbacksResponseHandler}
+    #
+    # @private
     class ResponseHandleObserver
       include DRb::DRbUndumped
 
