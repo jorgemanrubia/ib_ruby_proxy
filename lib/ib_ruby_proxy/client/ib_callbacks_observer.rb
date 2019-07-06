@@ -1,6 +1,9 @@
 module IbRubyProxy
   module Client
-    # Observer of {IbRubyProxy::Server::IbWrapperAdapter}
+    # Base observer for callbacks received by {IbRubyProxy::Server::IbWrapperAdapter}
+    #
+    # This class is meant to be extended by implementing the methods for the callbacks you
+    # are interested in
     class IbCallbacksObserver
       include IbRubyProxy::Util::HasLogger
 
