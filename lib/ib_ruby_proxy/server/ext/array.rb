@@ -3,6 +3,7 @@ java_import 'java.util.ArrayList'
 module IbRubyProxy
   module Server
     module Ext
+      # Extensions to Array for converting between ruby and ib
       module Array
         def to_ib
           collect(&:to_ib)

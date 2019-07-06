@@ -4,6 +4,7 @@ module IbRubyProxy
   module Server
     module Ext
       module Enum
+        # Extensions to Enum for converting between ruby and ib
         def to_ib
           self
         end
