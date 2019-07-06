@@ -15,9 +15,9 @@ module IbRubyProxy
     # The proxy does essentially 2 things:
     #
     # * Starts a DRb process you can connect to invoke the IB api. This will expose an {IbClientAdapter}
-    # object to its clients
+    #   object to its clients
     # * Starts an IB message-processing thread that will dispatch messages sent to IB client app (
-    # gateway or TWS)
+    #   gateway or TWS)
     class IbProxyService
       DEFAULT_IB_GATEWAY_PORT = 4002
       DEFAULT_DRB_PORT = 1992
