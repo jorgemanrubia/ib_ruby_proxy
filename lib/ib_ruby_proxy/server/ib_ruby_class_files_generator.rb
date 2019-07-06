@@ -1,5 +1,7 @@
 module IbRubyProxy
   module Server
+    # Source code generator that interacts with {IbRubyClassSourceGenerator} and writes down the actual files
+    # with the source for both Ruby classes representing IB classes and Ruby extensions for these.
     class IbRubyClassFilesGenerator
       attr_reader :client_code_dir, :server_code_dir
 
@@ -11,11 +13,19 @@ module IbRubyProxy
         java_import "com.ib.client.#{class_name}"
       end
 
+      # @param [String] client_code_dir
+      # @param [String] server_code_dir
       def initialize(client_code_dir:, server_code_dir:)
         @client_code_dir = client_code_dir
         @server_code_dir = server_code_dir
       end
 
+      # Generate client files and server class extensions
+      #
+      # It will format the generated code with {https://github.com/ruby-formatter/rufo Rufo}.
+      #
+      # @see IbRubyClassSourceGenerator#ruby_class_source
+      # @see IbRubyClassSourceGenerator#ib_class_extension_source
       def generate_all
         do_generate_all
         format_code
