@@ -64,5 +64,8 @@ DEPENDENCIES
   rubocop-rspec
   rufo
 
+RUBY VERSION
+   ruby 2.5.3p0 (jruby 9.2.7.0)
+
 BUNDLED WITH
    2.0.2

@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.5.3', engine: 'jruby', engine_version: '~> 9.2.7'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
