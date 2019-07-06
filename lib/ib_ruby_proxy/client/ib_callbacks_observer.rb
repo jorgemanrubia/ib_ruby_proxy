@@ -1,6 +1,6 @@
 module IbRubyProxy
   module Client
-    class IbCallbacksWrapper
+    class IbCallbacksObserver
       include IbRubyProxy::Util::HasLogger
 
       # This is the ruby equivalent to Interactive Brokers EWrapper class. Extend it and add the methods
