@@ -6,7 +6,7 @@ module IbRubyProxy
     # EWrapper implementation that delegates responding to each method by triggering an observer
     # notification. It will translate the name of the java method to Ruby (camelcase), as well
     # as translate the parameters from ib to the ruby world.
-    class IbCallbacksAdapterWrapper
+    class IbWrapperAdapter
       # include DRb::DRbObservable
       include EWrapper
       include DRb::DRbObservable

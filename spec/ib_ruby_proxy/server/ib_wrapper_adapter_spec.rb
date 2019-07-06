@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe IbRubyProxy::Server::IbCallbacksAdapterWrapper do
+describe IbRubyProxy::Server::IbWrapperAdapter do
   subject(:adapter) { described_class.new }
 
   it 'emits a notification containing the ruby name of the method to invoke and the arguments'\
