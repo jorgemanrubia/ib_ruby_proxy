@@ -7,6 +7,7 @@ module IbRubyProxy
 
         attr_reader :klass
 
+        # @param [Class] klass
         def initialize(klass)
           @klass = klass
         end

@@ -1,6 +1,7 @@
 module IbRubyProxy
   module Server
     module Reflection
+      # An {IbClass} field
       class IbField
         IB_FIELD_PREFIX = /^m_/.freeze
 
@@ -11,6 +12,9 @@ module IbRubyProxy
           @ib_class = ib_class
         end
 
+        # Default value for the field
+        #
+        # @return [Object]
         def default_value
           case java_field.type
           when Java::int.java_class, Java::float.java_class, Java::double.java_class
@@ -20,6 +24,9 @@ module IbRubyProxy
           end
         end
 
+        # {#default_value Default value} as a string
+        #
+        # @return [String]
         def default_value_as_string
           value = default_value
           if value.nil?
@@ -29,6 +36,9 @@ module IbRubyProxy
           end
         end
 
+        # Return the name of the accessor method used to access the field
+        #
+        # @return [String]
         def name
           @name ||= find_name
         end
