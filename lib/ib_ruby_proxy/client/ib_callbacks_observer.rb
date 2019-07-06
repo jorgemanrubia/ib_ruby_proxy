@@ -1,5 +1,6 @@
 module IbRubyProxy
   module Client
+    # Observer of {IbRubyProxy::Server::IbWrapperAdapter}
     class IbCallbacksObserver
       include IbRubyProxy::Util::HasLogger
 
