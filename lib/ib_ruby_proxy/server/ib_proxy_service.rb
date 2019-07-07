@@ -10,7 +10,8 @@ java_import 'com.ib.client.EReader'
 
 module IbRubyProxy
   module Server
-    # Proxy service for invoking IB api through {https://ruby-doc.org/stdlib-2.6.1/libdoc/drb/rdoc/DRb.html DRb}
+    # Proxy service for invoking IB api through
+    # {https://ruby-doc.org/stdlib-2.6.1/libdoc/drb/rdoc/DRb.html DRb}
     #
     # The proxy does essentially 2 things:
     #

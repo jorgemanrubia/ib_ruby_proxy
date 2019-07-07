@@ -90,7 +90,7 @@ module IbRubyProxy
         raise "Already configured handler for #{method}" if method_handlers[method]
       end
 
-      @private
+      # b_proxy_service.rb:13@private
       class BlockCallbackHandler
         include IbRubyProxy::Util::HasLogger
 
