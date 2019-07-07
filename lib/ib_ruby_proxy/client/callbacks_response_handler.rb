@@ -46,10 +46,10 @@ module IbRubyProxy
       # @private
       def self.for_ib
         new.tap do |handler|
-          IB_CALLBACKS_MAPPING.each do |method, callback_config|
-            nth_argument = callback_config[:discriminate_by_argument_nth]
+          IbRubyProxy.config['mapped_callbacks'].each do |method, callback_config|
+            nth_argument = callback_config['discriminate_by_argument_nth']
             handler.configure_block_callback method: method.to_sym,
-                                             callback: callback_config[:callbacks],
+                                             callbacks: callback_config['callbacks'],
                                              discriminate_by_argument_nth: nth_argument
           end
         end
@@ -58,16 +58,16 @@ module IbRubyProxy
       # Configures a mapping between a method invocation and a received callback
       #
       # @param [String, Symbol] method
-      # @param [String, Symbol] callback
+      # @param [String, Symbol] callbacks
       # @param [Integer, nil] discriminate_by_argument_nth The position of the argument that
       #   will be used to discriminate received callbacks and match them with invocation methods.
       #   +nil+ indicates no argument should be used for discriminating (default)
-      def configure_block_callback(method:, callback:, discriminate_by_argument_nth: nil)
+      def configure_block_callback(method:, callbacks:, discriminate_by_argument_nth: nil)
         validate_can_add_callback_on_method!(method)
 
         handler = BlockCallbackHandler.new(discriminate_by_argument_nth)
 
-        configure_callback_handler(callback, handler)
+        configure_callbacks_handler(callbacks, handler)
         configure_method_handler(method, handler)
       end
 
@@ -79,10 +79,9 @@ module IbRubyProxy
         method_handlers[method.to_sym] = handler
       end
 
-      def configure_callback_handler(callback, handler)
-        callback = [callback] unless callback.respond_to?(:each)
-        callback << :error
-        callback.each do |callback_name|
+      def configure_callbacks_handler(callbacks, handler)
+        callbacks << :error
+        callbacks.each do |callback_name|
           callback_handlers[callback_name.to_sym] = handler
         end
       end
