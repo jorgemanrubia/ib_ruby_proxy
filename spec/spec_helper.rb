@@ -17,6 +17,7 @@
 $LOAD_PATH << '../lib'
 require 'ib_ruby_proxy'
 require 'server'
+require 'impersonator'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -100,4 +101,15 @@ RSpec.configure do |config|
   #   # test failures related to randomization by passing the same `--seed` value
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
+  #
+  # Impersonator hook
+  config.around(:example, :impersonator) do |example|
+    Impersonator.recording(example.full_description) do
+      example.run
+      if Impersonator.current_recording&.record_mode?
+        puts "WAITING SINCE RECORDING MODE?"
+        sleep 5
+      end
+    end
+  end
 end

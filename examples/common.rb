@@ -3,7 +3,7 @@ require 'ib_ruby_proxy'
 
 class Securities
   class << self
-    def emini(expiration_month = '201906')
+    def emini(expiration_month = '201909')
       IbRubyProxy::Client::Ib::Contract.new symbol: 'ES',
                                             sec_type: 'FUT',
                                             currency: 'USD',
