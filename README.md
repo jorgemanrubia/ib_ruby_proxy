@@ -8,6 +8,8 @@ By design, `ib_ruby_proxy` mimics the IB api design where, one entity is used to
 
 The machine running the `ib_ruby_proxy` service needs JRuby but the clients of the service can use any standard Ruby distribution. Internally, it uses [DRb](https://ruby-doc.org/stdlib-2.6.3/libdoc/drb/rdoc/DRb.html) to communicate client and server.
 
+![image-20190707102616973](/Users/jorge/work/ib_ruby_proxy/docs/images/architecture.png)
+
 ## Usage
 
 ### `ib_ruby_proxy` service
@@ -36,7 +38,7 @@ First, you instantiate a client object to make the api calls:
 client = IbRubyProxy::Client::Client.from_drb
 ```
 
-Now you can use `client` to invoke api methods. It will use Ruby conventions, so it will be `req_historical_ticks` instead of `reqHistoricalTicks`.
+Now you can use `client` to invoke api methods. It will use Ruby conventions so, for example, it would be `req_historical_ticks` instead of `reqHistoricalTicks`.
 
 In order to receive callbacks, use a `IbRubyProxy::Client::IbCallbacksObserver` implementing the callback methods you want to handle. Again, callback names will use Ruby conventions.
 
@@ -67,19 +69,13 @@ client.req_historical_ticks(18009, aapl, '20190304 12:00:01', nil, 100,
 `ib_ruby_proxy` support passing a block to the api methods and have this block invoked with the corresponding received callbacks. The yielded params will include the callback name and the list of arguments received by the callback.
 
 ```ruby
-client = IbRubyProxy::Client::Client.from_drb
-
-client.req_historical_ticks(18009, Securities.emini, nil, '20190304 17:00:01', 100,
+client.req_historical_ticks(18009, aapl, nil, '20190304 17:00:01', 100,
                             'MIDPOINT', 1, false, nil) do |_callback, _request_id, ticks, _done|
   ap ticks
 end
 ```
 
-
-
-This feature is currently under development and not all the mappings have been configured yet. Please check section *Add custom mappings* if you want to contribute new mappings.
-
-## How it works
+This feature is currently under development and not all the mappings have been configured yet. Please check section *Add custom mappings* if you want to contribute new mappings (pull requests welcomed).
 
 ## Development
 
