@@ -13,7 +13,7 @@ describe IbRubyProxy::Client::CallbacksResponseHandler do
 
       it 'allows handling callbacks invoking a block with each response' do
         callbacks_response_handler.configure_block_callback method: :some_method,
-                                                            callback: :response_callback
+                                                            callbacks: [:response_callback]
 
         def client.some_method(id, name, &block)
           callbacks_response_handler.method_invoked(:some_method, id, name, &block)
@@ -32,7 +32,7 @@ describe IbRubyProxy::Client::CallbacksResponseHandler do
 
       it 'allows handling callbacks discriminating the handlers by an argument position' do
         callbacks_response_handler.configure_block_callback method: :some_method,
-                                                            callback: :response_callback,
+                                                            callbacks: [:response_callback],
                                                             discriminate_by_argument_nth: 0
 
         def client.some_method(id, name, &block)
@@ -53,7 +53,7 @@ describe IbRubyProxy::Client::CallbacksResponseHandler do
 
       it 'triggers an exception when the error callback is invoked' do
         callbacks_response_handler.configure_block_callback method: :some_method,
-                                                            callback: :error,
+                                                            callbacks: [:error],
                                                             discriminate_by_argument_nth: 0
 
         expect { callbacks_response_handler.callback_received(:error, 'some', 'error') }
