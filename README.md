@@ -1,38 +1,105 @@
 # IbRubyProxy
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ib_ruby_proxy`. To experiment with that code, run `bin/console` for an interactive prompt.
+Service for invoking [Interactive Brokers (IB) api](https://www.interactivebrokers.com/en/index.php?f=5041) from Ruby.
 
-TODO: Delete this and the text above, and describe your gem
+`ib_ruby_proxy` acts as a mediator between your Ruby code and the IB software making the API calls ([Gateway](https://www.interactivebrokers.com/en/index.php?f=16457) or [TWS](https://www.interactivebrokers.com/en/index.php?f=16457)). Internally, it invokes the official IB Java API and translates objects between Ruby and Java worlds. It also translates method and callback names so that you can use Ruby convention (underscore) instead of Java's (camelcase).
 
-## Installation
+By design, `ib_ruby_proxy` mimics the IB api design where, one entity is used to make all the api calls `EClient` and other entity is used to receive all the callback responses (`EWrapper`). Also, `ib_ruby_proxy` relies on the official [IB Java API implementation](https://interactivebrokers.github.io). Both decisions aim to increase the robustness of the approach, instead of making lower level api invocations through sockets or elaborated abstractions over how the API works.
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'ib_ruby_proxy'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install ib_ruby_proxy
+The machine running the `ib_ruby_proxy` service needs JRuby but the clients of the service can use any standard Ruby distribution. Internally, it uses [DRb](https://ruby-doc.org/stdlib-2.6.3/libdoc/drb/rdoc/DRb.html) to communicate client and server.
 
 ## Usage
 
-TODO: Write usage instructions here
+### `ib_ruby_proxy` service
+
+The service requires JRuby 9.2 or higher available in the system.
+
+```
+gem install ib_ruby_proxy
+```
+
+Start the process:
+
+`ibproxy`
+
+By default it will connect to the IB Gateway software at port `4002` and expose a DRb connection for clients at port `1992`. You can configure both with options `--ib-port` and `-drb-port`. Use `ibproxy help` to see the options available.
+
+### Clients
+
+Clients can use any Ruby distribution supporting DRb. This includes MRI and JRuby.
+
+#### Plain approach
+
+First, you instantiate a client object to make the api calls:
+
+```ruby
+client = IbRubyProxy::Client::Client.from_drb
+```
+
+Now you can use `client` to invoke api methods. It will use Ruby conventions, so it will be `req_historical_ticks` instead of `reqHistoricalTicks`.
+
+In order to receive callbacks, use a `IbRubyProxy::Client::IbCallbacksObserver` implementing the callback methods you want to handle. Again, callback names will use Ruby conventions.
+
+For example, say you want to get the historical ticks for Apple (AAPL). IB api supports this with its [api method `reqHistoricalTicks` and a callback `historical_ticks` to receive the ticks](https://interactivebrokers.github.io/tws-api/historical_time_and_sales.html). The full example with `ib_ruby_proxy` looks like this:
+
+```ruby
+client = IbRubyProxy::Client::Client.from_drb
+
+class CallbacksObserver < IbRubyProxy::Client::IbCallbacksObserver
+  def historical_ticks(_request_id, ticks, _done)
+    ap ticks
+  end
+end
+
+aapl = IbRubyProxy::Client::Ib::Contract.new symbol: 'AAPL',
+                                             sec_type: 'STK',
+                                             exchange: 'ISLAND'
+
+client.add_ib_callbacks_observer CallbacksObserver.new
+client.req_historical_ticks(18009, aapl, '20190304 12:00:01', nil, 100,
+                            'MIDPOINT', 1, false, nil)
+```
+
+
+
+#### Mapped callbacks
+
+`ib_ruby_proxy` support passing a block to the api methods and have this block invoked with the corresponding received callbacks. The yielded params will include the callback name and the list of arguments received by the callback.
+
+```ruby
+client = IbRubyProxy::Client::Client.from_drb
+
+client.req_historical_ticks(18009, Securities.emini, nil, '20190304 17:00:01', 100,
+                            'MIDPOINT', 1, false, nil) do |_callback, _request_id, ticks, _done|
+  ap ticks
+end
+```
+
+
+
+This feature is currently under development and not all the mappings have been configured yet. Please check section *Add custom mappings* if you want to contribute new mappings.
+
+## How it works
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+### Add client classes
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+### Add custom mappings
+
+### Tests
+
+impersonator… promises
+
+## Difference with ib-ruby
+
+[ib-ruby](https://github.com/ib-ruby/ib-ruby) ...
+
+`ib-ruby` has been around for a long time and it is well maintained. You should definitely give it a try if you are thinking in invoking IB from Ruby.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/ib_ruby_proxy.
+Bug reports and pull requests are welcome on GitHub at https://github.com/jorgemanrubia/ib_ruby_proxy.
 
 ## License
 
