@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Jorge Manrubia']
   spec.email         = ['jorge.manrubia@gmail.com']
 
-  spec.summary       = 'Invoke IB Java api from Ruby'
-  spec.description   = 'Invoke IB Java api from Ruby'
+  spec.summary       = 'Invoke IB Java API from Ruby'
+  spec.description   = 'Invoke IB Java API from Ruby'
   spec.homepage      = 'https://github.com/jorgemanrubia/ib_ruby_proxy'
   spec.license       = 'MIT'
 
