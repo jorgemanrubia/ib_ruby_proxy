@@ -58,7 +58,7 @@ aapl = IbRubyProxy::Client::Ib::Contract.new symbol: 'AAPL',
                                              exchange: 'ISLAND'
 
 client.add_ib_callbacks_observer CallbacksObserver.new
-client.req_historical_ticks(18009, aapl, '20190304 12:00:01', nil, 100,
+client.req_historical_ticks(18009, aapl, '20190304 12:00:00', nil, 100,
                             'MIDPOINT', 1, false, nil)
 ```
 
@@ -69,7 +69,7 @@ client.req_historical_ticks(18009, aapl, '20190304 12:00:01', nil, 100,
 `ib_ruby_proxy` support passing a block to the api methods and have this block invoked with the corresponding received callbacks. The yielded params will include the callback name and the list of arguments received by the callback.
 
 ```ruby
-client.req_historical_ticks(18009, aapl, nil, '20190304 17:00:01', 100,
+client.req_historical_ticks(18009, aapl, nil, '20190304 17:00:00', 100,
                             'MIDPOINT', 1, false, nil) do |_callback, _request_id, ticks, _done|
   ap ticks
 end
