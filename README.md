@@ -125,6 +125,7 @@ Each entry includes the name of the API method and a list of the callback method
 
 ## Links
 
+- [Blog post](https://www.jorgemanrubia.com/2019/07/07/invoke_the_interactive_brokers_api_from_ruby/)
 - [Api docs](https://www.rubydoc.info/github/jorgemanrubia/ib_ruby_proxy)
 
 ## Contributing
