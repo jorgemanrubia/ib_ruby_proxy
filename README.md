@@ -49,7 +49,7 @@ client = IbRubyProxy::Client::Client.from_drb
 
 class CallbacksObserver < IbRubyProxy::Client::IbCallbacksObserver
   def historical_ticks(_request_id, ticks, _done)
-    ap ticks
+    pp ticks
   end
 end
 
@@ -71,7 +71,7 @@ client.req_historical_ticks(18009, aapl, '20190304 12:00:00', nil, 100,
 ```ruby
 client.req_historical_ticks(18009, aapl, nil, '20190304 17:00:00', 100,
                             'MIDPOINT', 1, false, nil) do |_callback, _request_id, ticks, _done|
-  ap ticks
+  pp ticks
 end
 ```
 
