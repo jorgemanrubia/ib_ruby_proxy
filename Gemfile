@@ -1,10 +1,10 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
+ruby '2.5.3', engine: 'jruby', engine_version: '~> 9.2'
 
-git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
-# Used for linting after generating code
-gem 'rufo', require: false
-gem 'commander', require: false
+gem 'rubocop'
+gem 'rubocop-rspec'
+gem 'rufo', require: false # for linting after generating code
 
-# Specify your gem's dependencies in ib_ruby_proxy.gemspec
 gemspec

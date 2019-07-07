@@ -1,15 +1,19 @@
 describe IbRubyProxy::Client::CallbacksResponseHandler do
   describe 'Promises' do
-    subject(:callbacks_response_handler) { IbRubyProxy::Client::CallbacksResponseHandler.new }
-    let(:client) { double 'dummy client', callbacks_response_handler: callbacks_response_handler, error: nil }
+    subject(:callbacks_response_handler) { described_class.new }
+
+    let(:client) do
+      double 'dummy client', callbacks_response_handler: callbacks_response_handler,
+                             error: nil
+    end
 
     describe '#configure_block_callback' do
-      let(:proc_1) { ->{} } # getting stackoverflow error with proc{} so using a lambda instead
-      let(:proc_2) { ->{} }
+      let(:proc_1) { -> {} } # getting stackoverflow error with proc{} so using a lambda instead
+      let(:proc_2) { -> {} }
 
       it 'allows handling callbacks invoking a block with each response' do
         callbacks_response_handler.configure_block_callback method: :some_method,
-                                                            callback: :response_callback
+                                                            callbacks: [:response_callback]
 
         def client.some_method(id, name, &block)
           callbacks_response_handler.method_invoked(:some_method, id, name, &block)
@@ -28,7 +32,7 @@ describe IbRubyProxy::Client::CallbacksResponseHandler do
 
       it 'allows handling callbacks discriminating the handlers by an argument position' do
         callbacks_response_handler.configure_block_callback method: :some_method,
-                                                            callback: :response_callback,
+                                                            callbacks: [:response_callback],
                                                             discriminate_by_argument_nth: 0
 
         def client.some_method(id, name, &block)
@@ -49,13 +53,12 @@ describe IbRubyProxy::Client::CallbacksResponseHandler do
 
       it 'triggers an exception when the error callback is invoked' do
         callbacks_response_handler.configure_block_callback method: :some_method,
-                                                            callback: :error,
+                                                            callbacks: [:error],
                                                             discriminate_by_argument_nth: 0
 
-        expect{ callbacks_response_handler.callback_received(:error, 'some', 'error')}.to raise_error('some. error')
+        expect { callbacks_response_handler.callback_received(:error, 'some', 'error') }
+          .to raise_error('some. error')
       end
     end
-
-
   end
 end

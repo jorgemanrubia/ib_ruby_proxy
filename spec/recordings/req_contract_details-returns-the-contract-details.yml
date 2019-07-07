@@ -1,0 +1,98 @@
+---
+- !ruby/struct:Impersonator::MethodInvocation
+  method_instance: !ruby/object:Impersonator::Method
+    name: :req_contract_details
+    arguments:
+    - 18002
+    - !ruby/struct:IbRubyProxy::Client::Ib::Contract
+      conid: 0
+      symbol: ES
+      sec_type: FUT
+      last_trade_date_or_contract_month: '201909'
+      strike: 0
+      right:
+      multiplier:
+      exchange: GLOBEX
+      primary_exch:
+      currency: USD
+      local_symbol:
+      trading_class:
+      sec_id_type:
+      sec_id:
+      delta_neutral_contract:
+      include_expired: false
+      combo_legs_descrip:
+      combo_legs:
+    block_spy: !ruby/object:Impersonator::BlockSpy
+      block_invocations:
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :contract_details
+        - 18002
+        - !ruby/struct:IbRubyProxy::Client::Ib::ContractDetails
+          contract: !ruby/struct:IbRubyProxy::Client::Ib::Contract
+            conid: 321454763
+            symbol: ES
+            sec_type: FUT
+            last_trade_date_or_contract_month: '20190920'
+            strike: 0.0
+            right: None
+            multiplier: '50'
+            exchange: GLOBEX
+            primary_exch:
+            currency: USD
+            local_symbol: ESU9
+            trading_class: ES
+            sec_id_type: None
+            sec_id:
+            delta_neutral_contract:
+            include_expired: false
+            combo_legs_descrip:
+            combo_legs: []
+          market_name: ES
+          min_tick: 0.25
+          price_magnifier: 1
+          order_types: ACTIVETIM,ADJUST,ALERT,ALGO,ALLOC,AVGCOST,BASKET,BENCHPX,COND,CONDORDER,DAY,DEACT,DEACTDIS,DEACTEOD,GAT,GTC,GTD,GTT,HID,ICE,IOC,LIT,LMT,LTH,MIT,MKT,MTL,NGCOMB,NONALGO,OCA,PEGBENCH,SCALE,SCALERST,SNAPMID,SNAPMKT,SNAPREL,STP,STPLMT,TRAIL,TRAILLIT,TRAILLMT,TRAILMIT,WHATIF
+          valid_exchanges: GLOBEX
+          under_conid: 11004968
+          long_name: E-mini S&P 500
+          contract_month: '201909'
+          industry:
+          category:
+          subcategory:
+          time_zone_id: America/Belize
+          trading_hours: ";20190707:1700-20190708:1515;20190708:1530-20190708:1600;20190708:1700-20190709:1515;20190709:1530-20190709:1600;20190709:1700-20190710:1515;20190710:1530-20190710:1600;20190710:1700-20190711:1515;20190711:1530-20190711:1600;20190711:1700-20190712:1515;20190712:1530-20190712:1600;20190713:CLOSED;20190714:1700-20190715:1515;20190715:1530-20190715:1600;20190715:1700-20190716:1515;20190716:1530-20190716:1600;20190716:1700-20190717:1515;20190717:1530-20190717:1600;20190717:1700-20190718:1515;20190718:1530-20190718:1600;20190718:1700-20190719:1515;20190719:1530-20190719:1600;20190720:CLOSED;20190721:1700-20190722:1515;20190722:1530-20190722:1600;20190722:1700-20190723:1515;20190723:1530-20190723:1600;20190723:1700-20190724:1515;20190724:1530-20190724:1600;20190724:1700-20190725:1515;20190725:1530-20190725:1600;20190725:1700-20190726:1515;20190726:1530-20190726:1600;20190727:CLOSED;20190728:1700-20190729:1515;20190729:1530-20190729:1600;20190729:1700-20190730:1515;20190730:1530-20190730:1600;20190730:1700-20190731:1515;20190731:1530-20190731:1600;20190731:1700-20190801:1515;20190801:1530-20190801:1600;20190801:1700-20190802:1515;20190802:1530-20190802:1600;20190803:CLOSED;20190804:1700-20190805:1515;20190805:1530-20190805:1600;20190805:1700-20190806:1515;20190806:1530-20190806:1600;20190806:1700-20190807:1515;20190807:1530-20190807:1600;20190807:1700-20190808:1515;20190808:1530-20190808:1600;20190808:1700-20190809:1515;20190809:1530-20190809:1600;20190810:CLOSED"
+          liquid_hours: 20190707:CLOSED;20190708:0830-20190708:1515;20190708:1530-20190708:1600;20190709:0830-20190709:1515;20190709:1530-20190709:1600;20190710:0830-20190710:1515;20190710:1530-20190710:1600;20190711:0830-20190711:1515;20190711:1530-20190711:1600;20190712:0830-20190712:1515;20190712:1530-20190712:1600;20190713:CLOSED;20190714:CLOSED;20190715:0830-20190715:1515;20190715:1530-20190715:1600;20190716:0830-20190716:1515;20190716:1530-20190716:1600;20190717:0830-20190717:1515;20190717:1530-20190717:1600;20190718:0830-20190718:1515;20190718:1530-20190718:1600;20190719:0830-20190719:1515;20190719:1530-20190719:1600;20190720:CLOSED;20190721:CLOSED;20190722:0830-20190722:1515;20190722:1530-20190722:1600;20190723:0830-20190723:1515;20190723:1530-20190723:1600;20190724:0830-20190724:1515;20190724:1530-20190724:1600;20190725:0830-20190725:1515;20190725:1530-20190725:1600;20190726:0830-20190726:1515;20190726:1530-20190726:1600;20190727:CLOSED;20190728:CLOSED;20190729:0830-20190729:1515;20190729:1530-20190729:1600;20190730:0830-20190730:1515;20190730:1530-20190730:1600;20190731:0830-20190731:1515;20190731:1530-20190731:1600;20190801:0830-20190801:1515;20190801:1530-20190801:1600;20190802:0830-20190802:1515;20190802:1530-20190802:1600;20190803:CLOSED;20190804:CLOSED;20190805:0830-20190805:1515;20190805:1530-20190805:1600;20190806:0830-20190806:1515;20190806:1530-20190806:1600;20190807:0830-20190807:1515;20190807:1530-20190807:1600;20190808:0830-20190808:1515;20190808:1530-20190808:1600;20190809:0830-20190809:1515;20190809:1530-20190809:1600;20190810:CLOSED
+          ev_rule:
+          ev_multiplier: 0.0
+          md_size_multiplier: 1
+          sec_id_list:
+          agg_group: 2147483647
+          under_symbol: ES
+          under_sec_type: IND
+          market_rule_ids: '67'
+          real_expiration_date: '20190920'
+          last_trade_time: '08:30'
+          cusip:
+          ratings:
+          desc_append:
+          bond_type:
+          coupon_type:
+          callable: false
+          putable: false
+          coupon: 0.0
+          convertible: false
+          maturity:
+          issue_date:
+          next_option_date:
+          next_option_type:
+          next_option_partial: false
+          notes:
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :contract_details_end
+        - 18002
+    matching_configuration: !ruby/object:Impersonator::MethodMatchingConfiguration
+      ignored_positions:
+      - 0
+  return_value:

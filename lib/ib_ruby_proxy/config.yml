@@ -1,0 +1,43 @@
+classes:
+  - ComboLeg
+  - DeltaNeutralContract
+  - Contract
+  - Order
+  - HistoricalTickLast
+  - TickAttribLast
+  - Bar
+  - HistoricalTick
+  - TickAttribBidAsk
+  - HistoricalTickLast
+  - TickAttribLast
+  - HistoricalTickBidAsk
+  - ContractDetails
+
+mapped_callbacks:
+  req_historical_ticks:
+    callbacks:
+      - historical_ticks
+      - historical_ticks_bid_ask
+      - historical_ticks_last
+    discriminate_by_argument_nth: 0
+
+  req_contract_details:
+    callbacks:
+      - contract_details
+      - contract_details_end
+    discriminate_by_argument_nth: 0,
+
+  req_tick_by_tick_data:
+    callbacks:
+      - tick_by_tick_bid_ask
+      - tick_by_tick_all_last
+      - tick_by_tick_mid_point
+    discriminate_by_argument_nth: 0
+
+  req_historical_data:
+    callbacks:
+      - historical_data
+      - historical_data_end
+      - historical_data_update
+    discriminate_by_argument_nth: 0
+

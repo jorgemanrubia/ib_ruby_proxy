@@ -3,10 +3,12 @@ require 'drb/observer'
 
 module IbRubyProxy
   module Server
-    # EWrapper implementation that delegates responding to each method by triggering an observer notification. It will
-    # translate the name of the java method to Ruby (camelcase), as well as translate the parameters from ib to the
-    # ruby world.
-    class IbCallbacksAdapterWrapper
+    # Ruby representation of the IB +EWrapper+ class. It delegates received callbacks by
+    # triggering an observer notification. It will translate the name of the java method to
+    # Ruby (underscore), as well as translate the parameters from IB to the Ruby world.
+    #
+    # @see IbClientAdapter
+    class IbWrapperAdapter
       # include DRb::DRbObservable
       include EWrapper
       include DRb::DRbObservable
@@ -20,9 +22,10 @@ module IbRubyProxy
         @client = EClientSocket.new(self, @signal)
       end
 
+      # @private
       def self.define_ruby_method_for(java_method)
         ruby_method_name = to_underscore(java_method.name)
-        class_eval <<-RUBY
+        class_eval <<-RUBY, __FILE__, __LINE__ + 1
           def #{java_method.name}(*arguments)
             ruby_arguments = arguments.collect(&:to_ruby)
             if count_observers > 0
@@ -40,6 +43,5 @@ module IbRubyProxy
         define_ruby_method_for(java_method)
       end
     end
-
   end
 end

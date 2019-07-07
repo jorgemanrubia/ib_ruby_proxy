@@ -1,7 +1,6 @@
-describe IbRubyProxy::Client::IbCallbacksWrapper do
-  class MyDummyWrapper < IbRubyProxy::Client::IbCallbacksWrapper
-    def my_dummy_method(argument_1, argument_2)
-    end
+describe IbRubyProxy::Client::IbCallbacksObserver do
+  class MyDummyWrapper < IbRubyProxy::Client::IbCallbacksObserver
+    def my_dummy_method(argument_1, argument_2); end
   end
 
   it 'responds to `update` invoking the method received in the arguments' do

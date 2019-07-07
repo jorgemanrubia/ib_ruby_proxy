@@ -1,6 +1,10 @@
 module IbRubyProxy
   module Client
-    class IbCallbacksWrapper
+    # Base observer for callbacks received by {IbRubyProxy::Server::IbWrapperAdapter}
+    #
+    # This class is meant to be extended by implementing the methods for the callbacks you
+    # are interested in
+    class IbCallbacksObserver
       include IbRubyProxy::Util::HasLogger
 
       # This is the ruby equivalent to Interactive Brokers EWrapper class. Extend it and add the methods
@@ -13,10 +17,9 @@ module IbRubyProxy
       end
 
       def error(*arguments)
-        logger.error "Error received in ib wrapper:"
+        logger.error 'Error received in ib wrapper:'
         logger.error arguments.inspect
       end
-
     end
   end
 end

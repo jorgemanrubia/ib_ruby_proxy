@@ -5,8 +5,8 @@ class Server
   include DRb::DRbObservable
   attr_accessor :object
 
-  def initialize()
-    @object = {:id => 'from server side'}
+  def initialize
+    @object = { id: 'from server side' }
   end
 
   def add(numnber1, number2)
@@ -21,6 +21,6 @@ DRb.start_service('druby://localhost:1992', server)
 
 begin
   DRb.thread.join
-rescue Exception
-  Process.kill("TERM", Process.pid)
+rescue StandardError
+  Process.kill('TERM', Process.pid)
 end
