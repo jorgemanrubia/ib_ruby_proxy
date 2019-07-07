@@ -1,6 +1,6 @@
 module Test
   module IbRubyProxyHelpers
-    IMPERSONATED_METHODS = %i[req_contract_details req_historical_ticks]
+    IMPERSONATED_METHODS = %i[req_contract_details req_historical_ticks req_historical_data]
 
     def build_impersonated_client
       Impersonator.impersonate(*IMPERSONATED_METHODS) { IbRubyProxy::Client::Client.from_drb }

@@ -1,0 +1,303 @@
+---
+- !ruby/struct:Impersonator::MethodInvocation
+  method_instance: !ruby/object:Impersonator::Method
+    name: :req_historical_data
+    arguments:
+    - 18009
+    - !ruby/struct:IbRubyProxy::Client::Ib::Contract
+      conid: 0
+      symbol: ES
+      sec_type: FUT
+      last_trade_date_or_contract_month: '201909'
+      strike: 0
+      right:
+      multiplier:
+      exchange: GLOBEX
+      primary_exch:
+      currency: USD
+      local_symbol:
+      trading_class:
+      sec_id_type:
+      sec_id:
+      delta_neutral_contract:
+      include_expired: false
+      combo_legs_descrip:
+      combo_legs:
+    - 20190304 17:00:01
+    - 1 M
+    - 1 day
+    - TRADES
+    - 1
+    - 1
+    - false
+    -
+    block_spy: !ruby/object:Impersonator::BlockSpy
+      block_invocations:
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190204'
+          open: 2715.5
+          high: 2734.25
+          low: 2715.5
+          close: 2731.75
+          volume: 28
+          count: 25
+          wap: 2725.5125
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190205'
+          open: 2740.0
+          high: 2747.0
+          low: 2738.0
+          close: 2741.5
+          volume: 24
+          count: 23
+          wap: 2742.875
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190206'
+          open: 2740.25
+          high: 2744.5
+          low: 2739.875
+          close: 2739.875
+          volume: 6
+          count: 4
+          wap: 2743.5875
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190207'
+          open: 2717.0
+          high: 2723.25
+          low: 2698.75
+          close: 2713.75
+          volume: 28
+          count: 18
+          wap: 2709.1875
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190208'
+          open: 2704.5
+          high: 2719.0
+          low: 2692.5
+          close: 2715.75
+          volume: 55
+          count: 27
+          wap: 2698.6125
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190211'
+          open: 2720.75
+          high: 2721.0
+          low: 2715.75
+          close: 2717.625
+          volume: 17
+          count: 8
+          wap: 2718.6875
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190212'
+          open: 2742.0
+          high: 2756.0
+          low: 2741.25
+          close: 2754.375
+          volume: 28
+          count: 23
+          wap: 2749.925
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190213'
+          open: 2765.25
+          high: 2770.5
+          low: 2758.25
+          close: 2759.5
+          volume: 37
+          count: 27
+          wap: 2765.55
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190214'
+          open: 2743.0
+          high: 2761.0
+          low: 2743.0
+          close: 2753.125
+          volume: 10
+          count: 6
+          wap: 2753.25
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190215'
+          open: 2773.5
+          high: 2787.0
+          low: 2773.5
+          close: 2786.75
+          volume: 28
+          count: 22
+          wap: 2778.3625
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190219'
+          open: 2783.5
+          high: 2796.25
+          low: 2783.5
+          close: 2788.0
+          volume: 81
+          count: 33
+          wap: 2792.1875
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190220'
+          open: 2790.5
+          high: 2798.0
+          low: 2786.0
+          close: 2796.25
+          volume: 68
+          count: 30
+          wap: 2790.8125
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190221'
+          open: 2786.5
+          high: 2788.0
+          low: 2775.5
+          close: 2783.5
+          volume: 18
+          count: 11
+          wap: 2781.15
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190222'
+          open: 2795.0
+          high: 2804.0
+          low: 2792.25
+          close: 2800.625
+          volume: 40
+          count: 38
+          wap: 2799.2375
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190225'
+          open: 2818.75
+          high: 2823.5
+          low: 2804.75
+          close: 2806.875
+          volume: 49
+          count: 37
+          wap: 2816.1375
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190226'
+          open: 2804.0
+          high: 2813.0
+          low: 2801.25
+          close: 2801.625
+          volume: 35
+          count: 28
+          wap: 2808.2875
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190227'
+          open: 2799.75
+          high: 2806.0
+          low: 2787.25
+          close: 2804.875
+          volume: 43
+          count: 29
+          wap: 2794.9625
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190228'
+          open: 2796.0
+          high: 2802.0
+          low: 2794.375
+          close: 2794.375
+          volume: 20
+          count: 16
+          wap: 2798.4625
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190301'
+          open: 2813.5
+          high: 2817.75
+          low: 2799.25
+          close: 2815.0
+          volume: 47
+          count: 33
+          wap: 2808.2125
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data
+        - 18009
+        - !ruby/struct:IbRubyProxy::Client::Ib::Bar
+          time: '20190304'
+          open: 2826.75
+          high: 2827.0
+          low: 2777.5
+          close: 2801.375
+          volume: 153
+          count: 101
+          wap: 2798.9375
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_data_end
+        - 18009
+        - 20190204  17:00:01
+        - 20190304  17:00:01
+    matching_configuration:
+  return_value:
