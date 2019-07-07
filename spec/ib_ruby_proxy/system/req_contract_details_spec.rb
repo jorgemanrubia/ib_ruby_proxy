@@ -6,7 +6,7 @@ describe '#req_contract_details', :impersonator do
 
   it 'returns the contract details' do
     promise = Concurrent::Promises.resolvable_future.tap do |future|
-      client.req_contract_details(18009, contract) do |callback, _request_id, contract_details|
+      client.req_contract_details(18002, contract) do |callback, _request_id, contract_details|
         future.fulfill(contract_details) if callback == :contract_details
       end
     end

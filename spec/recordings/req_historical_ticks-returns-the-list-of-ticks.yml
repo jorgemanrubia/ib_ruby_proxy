@@ -1,0 +1,105 @@
+---
+- !ruby/struct:Impersonator::MethodInvocation
+  method_instance: !ruby/object:Impersonator::Method
+    name: :req_historical_ticks
+    arguments:
+    - 18001
+    - !ruby/struct:IbRubyProxy::Client::Ib::Contract
+      conid: 0
+      symbol: ES
+      sec_type: FUT
+      last_trade_date_or_contract_month: '201909'
+      strike: 0
+      right:
+      multiplier:
+      exchange: GLOBEX
+      primary_exch:
+      currency: USD
+      local_symbol:
+      trading_class:
+      sec_id_type:
+      sec_id:
+      delta_neutral_contract:
+      include_expired: false
+      combo_legs_descrip:
+      combo_legs:
+    -
+    - 20190304 17:00:01
+    - 10
+    - MIDPOINT
+    - 1
+    - false
+    -
+    block_spy: !ruby/object:Impersonator::BlockSpy
+      block_invocations:
+      - !ruby/struct:Impersonator::BlockInvocation
+        arguments:
+        - :historical_ticks
+        - 18001
+        - - !ruby/struct:IbRubyProxy::Client::Ib::HistoricalTick
+            time: 1551736798
+            price: 2801.0
+            size: 0
+          - !ruby/struct:IbRubyProxy::Client::Ib::HistoricalTick
+            time: 1551736799
+            price: 2801.125
+            size: 0
+          - !ruby/struct:IbRubyProxy::Client::Ib::HistoricalTick
+            time: 1551736799
+            price: 2801.0
+            size: 0
+          - !ruby/struct:IbRubyProxy::Client::Ib::HistoricalTick
+            time: 1551736799
+            price: 2800.875
+            size: 0
+          - !ruby/struct:IbRubyProxy::Client::Ib::HistoricalTick
+            time: 1551736799
+            price: 2800.625
+            size: 0
+          - !ruby/struct:IbRubyProxy::Client::Ib::HistoricalTick
+            time: 1551736799
+            price: 2800.375
+            size: 0
+          - !ruby/struct:IbRubyProxy::Client::Ib::HistoricalTick
+            time: 1551736799
+            price: 2799.75
+            size: 0
+          - !ruby/struct:IbRubyProxy::Client::Ib::HistoricalTick
+            time: 1551736799
+            price: 2799.125
+            size: 0
+          - !ruby/struct:IbRubyProxy::Client::Ib::HistoricalTick
+            time: 1551736799
+            price: 2798.625
+            size: 0
+          - !ruby/struct:IbRubyProxy::Client::Ib::HistoricalTick
+            time: 1551736799
+            price: 2788.25
+            size: 0
+          - !ruby/struct:IbRubyProxy::Client::Ib::HistoricalTick
+            time: 1551736799
+            price: 2789.0
+            size: 0
+          - !ruby/struct:IbRubyProxy::Client::Ib::HistoricalTick
+            time: 1551736799
+            price: 2789.5
+            size: 0
+          - !ruby/struct:IbRubyProxy::Client::Ib::HistoricalTick
+            time: 1551736799
+            price: 2790.0
+            size: 0
+          - !ruby/struct:IbRubyProxy::Client::Ib::HistoricalTick
+            time: 1551736799
+            price: 2790.625
+            size: 0
+          - !ruby/struct:IbRubyProxy::Client::Ib::HistoricalTick
+            time: 1551736799
+            price: 2790.875
+            size: 0
+          - !ruby/struct:IbRubyProxy::Client::Ib::HistoricalTick
+            time: 1551736799
+            price: 2795.0
+            size: 0
+        - true
+    matching_configuration:
+  return_value:
