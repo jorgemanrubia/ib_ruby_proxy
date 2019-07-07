@@ -28,7 +28,11 @@ By default, it will connect to the IB Gateway software at port `4002` and expose
 
 ### Clients
 
-Clients can use any Ruby distribution supporting DRb, including MRI and JRuby.
+Clients can use any Ruby distribution supporting DRb, including MRI and JRuby. To use in your app add this to your `Gemfile`:
+
+```ruby
+gem 'ib_ruby_proxy'
+```
 
 #### Plain approach
 
