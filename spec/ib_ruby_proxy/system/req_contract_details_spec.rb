@@ -1,22 +1,8 @@
 require 'spec_helper'
 
 describe '#req_contract_details', :impersonator do
-  let(:client) do
-    impersonated_client = Impersonator.impersonate(:req_contract_details) do
-      IbRubyProxy::Client::Client.from_drb
-    end
-    impersonated_client.configure_method_matching_for(:req_contract_details) do |config|
-      config.ignore_arguments_at 0
-    end
-    impersonated_client
-  end
-  let(:contract) do
-    IbRubyProxy::Client::Ib::Contract.new symbol: 'ES',
-                                          sec_type: 'FUT',
-                                          currency: 'USD',
-                                          exchange: 'GLOBEX',
-                                          last_trade_date_or_contract_month: '201909'
-  end
+  let(:client) { build_impersonated_client }
+  let(:contract) { Test::Securities.emini }
 
   it 'returns the contract details' do
     promise = Concurrent::Promises.resolvable_future.tap do |future|

@@ -102,14 +102,7 @@ RSpec.configure do |config|
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
   #
-  # Impersonator hook
-  config.around(:example, :impersonator) do |example|
-    Impersonator.recording(example.full_description) do
-      example.run
-      if Impersonator.current_recording&.record_mode?
-        puts "WAITING SINCE RECORDING MODE?"
-        sleep 5
-      end
-    end
-  end
+  Dir["#{__dir__}/../spec/support/**/*.rb"].each { |file| require file }
+
+  config.include Test::IbRubyProxyHelpers
 end
