@@ -4,7 +4,7 @@ Service for invoking [Interactive Brokers (IB) api](https://www.interactivebroke
 
 `ib_ruby_proxy` acts as a mediator between your Ruby code and the IB software making the API calls ([Gateway](https://www.interactivebrokers.com/en/index.php?f=16457) or [TWS](https://www.interactivebrokers.com/en/index.php?f=16457)). Internally, it invokes the official IB Java API and translates objects between Ruby and Java worlds. It also translates method and callback names so that you can use Ruby convention (underscore) instead of Java's (camelcase).
 
-By design, `ib_ruby_proxy` mimics the IB api design where, one entity is used to make all the api calls `EClient` and other entity is used to receive all the callback responses (`EWrapper`). Also, `ib_ruby_proxy` relies on the official [IB Java API implementation](https://interactivebrokers.github.io). Both decisions aim to increase the robustness of the approach, instead of making lower level api invocations through sockets or elaborated abstractions over how the API works.
+By design, `ib_ruby_proxy` mimics the IB api design where, one entity is used to make all the api calls `EClient` and other entity is used to receive all the callback responses (`EWrapper`). Also, `ib_ruby_proxy` relies on the official [IB Java API implementation](https://interactivebrokers.github.io). Both decisions aim to increase robustness, instead of making lower level api invocations through sockets or elaborated abstractions over how the API works.
 
 The machine running the `ib_ruby_proxy` service needs JRuby installed. The clients of the service can use any standard Ruby distribution. Internally, it uses [DRb](https://ruby-doc.org/stdlib-2.6.3/libdoc/drb/rdoc/DRb.html) to communicate client and server.
 
