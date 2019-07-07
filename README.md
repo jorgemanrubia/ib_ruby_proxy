@@ -22,9 +22,11 @@ The service requires JRuby 9.2 or higher available in the system.
 gem install ib_ruby_proxy
 ```
 
-Start the process:
+Start the process by executing this command, with JRuby configured as the Ruby interpreter:
 
 `ibproxy`
+
+Alternatively, you can just clone this repository and run `bin/ibproxy` (there is a `.ruby-version` file specifying the right JRuby version).
 
 By default, it will connect to the IB Gateway software at port `4002` and expose a DRb connection for clients at port `1992`. You can configure both with options `--ib-port` and `--drb-port`. Use `ibproxy help` to see the options available.
 
