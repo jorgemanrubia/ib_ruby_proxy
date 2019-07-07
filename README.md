@@ -8,7 +8,7 @@ By design, `ib_ruby_proxy` mimics the IB api design where, one entity is used to
 
 The `ib_ruby_proxy` service needs JRuby installed. Clients of the service can use any standard Ruby distribution. Internally, it uses [DRb](https://ruby-doc.org/stdlib-2.6.3/libdoc/drb/rdoc/DRb.html) to communicate client and server.
 
-![image-20190707102616973](/Users/jorge/work/ib_ruby_proxy/docs/images/architecture.png)
+![ib_ruby_proxy architecture](docs/images/architecture.png)
 
 ## Usage
 
