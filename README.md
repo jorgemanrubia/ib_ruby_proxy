@@ -113,7 +113,7 @@ Each entry includes the name of the api method and a list of the callback method
 
 ## Difference with ib-ruby
 
-[ib-ruby](https://github.com/ib-ruby/ib-ruby) is a mature Ruby alternative for using Interactive Brokers that uses a different approach: it interacts with IB software by using lower level messages interchanges via sockets. It also offers a different andhigher level abstraction of the IB api. I personally prefer the approach of `ib_ruby_proxy` (I wouldn't have created it otherwise), but `ib-ruby` has been around for a long time, it is well maintained and eliminates the dependency of JRuby. You should give it a try if you are thinking in invoking IB from Ruby.
+[ib-ruby](https://github.com/ib-ruby/ib-ruby) is a mature Ruby alternative for using Interactive Brokers that uses a different approach: it interacts with IB software by using lower level messages interchanges via sockets. It also offers a different and higher-level abstraction of the IB api. I personally prefer the approach of `ib_ruby_proxy` (I wouldn't have created it otherwise), but `ib-ruby` has been around for a long time, it is well maintained and eliminates the dependency of JRuby. You should definitely give it a try if you are thinking in invoking IB from Ruby.
 
 ## Contributing
 
