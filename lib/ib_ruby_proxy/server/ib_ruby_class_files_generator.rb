@@ -5,19 +5,13 @@ module IbRubyProxy
     class IbRubyClassFilesGenerator
       attr_reader :client_code_dir, :server_code_dir
 
-      RUBY_CLASSES = %w[ComboLeg DeltaNeutralContract Contract Order HistoricalTickLast
-                        TickAttribLast Bar HistoricalTick TickAttribBidAsk HistoricalTickLast
-                        TickAttribLast HistoricalTickBidAsk ContractDetails].freeze
-
-      RUBY_CLASSES.each do |class_name|
-        java_import "com.ib.client.#{class_name}"
-      end
-
       # @param [String] client_code_dir
       # @param [String] server_code_dir
       def initialize(client_code_dir:, server_code_dir:)
         @client_code_dir = client_code_dir
         @server_code_dir = server_code_dir
+
+        import_ruby_classes
       end
 
       # Generate client files and server class extensions
@@ -33,8 +27,18 @@ module IbRubyProxy
 
       private
 
+      def import_ruby_classes
+        ruby_classes.each do |class_name|
+          java_import "com.ib.client.#{class_name}"
+        end
+      end
+
+      def ruby_classes
+        @ruby_classes ||= IbRubyProxy.config['classes']
+      end
+
       def do_generate_all
-        RUBY_CLASSES.each do |class_name|
+        ruby_classes.each do |class_name|
           generate_files class_name
         end
       end
