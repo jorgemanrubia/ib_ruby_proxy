@@ -13,7 +13,7 @@ aapl = IbRubyProxy::Client::Ib::Contract.new symbol: 'AAPL',
                                              exchange: 'ISLAND'
 
 client.add_ib_callbacks_observer CallbacksObserver.new
-client.req_historical_ticks(18009, aapl, '20190304 12:00:01', nil, 100,
+client.req_historical_ticks(18009, aapl, '20190304 12:00:00', nil, 100,
                             'MIDPOINT', 1, false, nil)
 
 sleep
