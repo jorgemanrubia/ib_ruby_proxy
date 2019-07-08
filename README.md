@@ -24,7 +24,9 @@ gem install ib_ruby_proxy
 
 Start the process by executing this command, with JRuby configured as the Ruby interpreter:
 
-`ibproxy`
+```
+> ibproxy
+```
 
 Alternatively, you can just clone this repository and run `bin/ibproxy` (there is a `.ruby-version` file specifying the right JRuby version).
 
@@ -128,6 +130,28 @@ Each entry includes the name of the API method and a list of the callback method
         - historical_ticks_bid_ask
         - historical_ticks_last
     discriminate_by_argument_nth: 0
+```
+
+### Testing
+
+You can run the spec suite:
+
+```
+> rake
+```
+
+[System tests](https://github.com/jorgemanrubia/ib_ruby_proxy/tree/master/spec/ib_ruby_proxy/system) use [`impersonator`](https://github.com/jorgemanrubia/impersonator) for recording and replaying interactions with IB. A recording is starting automatically for specs marked with a `:impersonator` tag.
+
+Also, [`concurrent-ruby` promises](https://github.com/ruby-concurrency/concurrent-ruby#general-purpose-concurrency-abstractions) are used to wait for callbacks to be received during tests. For example:
+
+```ruby
+promise = Concurrent::Promises.resolvable_future.tap do |future|
+  client.req_contract_details(18002, contract) do |callback, _request_id, contract_details|
+    future.fulfill(contract_details) if callback == :contract_details
+  end
+end
+contract = promise.value
+expect(contract.long_name).to eq('E-mini S&P 500')
 ```
 
 ## Difference with ib-ruby
