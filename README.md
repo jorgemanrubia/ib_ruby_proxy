@@ -129,7 +129,7 @@ Each entry includes the name of the API method and a list of the callback method
         - historical_ticks
         - historical_ticks_bid_ask
         - historical_ticks_last
-    discriminate_by_argument_nth: 0
+     discriminate_by_argument_nth: 0
 ```
 
 ### Testing
