@@ -140,7 +140,7 @@ To run the spec suite:
 > rake
 ```
 
-[System tests](https://github.com/jorgemanrubia/ib_ruby_proxy/tree/master/spec/ib_ruby_proxy/system) use [`impersonator`](https://github.com/jorgemanrubia/impersonator) for recording and replaying interactions with IB. A recording is starting automatically for specs marked with a `:impersonator` tag.
+[System tests](https://github.com/jorgemanrubia/ib_ruby_proxy/tree/master/spec/ib_ruby_proxy/system) use [`impersonator`](https://github.com/jorgemanrubia/impersonator) for recording and replaying interactions with IB. A recording is starting automatically for specs marked with a `:impersonator` tag. Notice you must [run the `ib_ruby_proxy` service](#ib_ruby_proxy-service) in the background for new system tests, in order to record the expected interactions.
 
 Also, [`concurrent-ruby` promises](https://github.com/ruby-concurrency/concurrent-ruby#general-purpose-concurrency-abstractions) are used to wait for callbacks to be received during tests. For example:
 
