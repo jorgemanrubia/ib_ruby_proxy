@@ -2,7 +2,7 @@ java_import 'com.ib.client.EClient'
 
 module IbRubyProxy
   module Server
-    # This is the Ruby representation of the IB Java +EClient+ class. It adapts ruby invocations
+    # This is the Ruby representation of the IB Java +EClientSocket+ class. It adapts ruby invocations
     # and arguments to invoke the corresponding Java API methods.
     #
     # It is the object DRb clients get when connecting to the {IbProxyService proxy service}.
@@ -19,7 +19,7 @@ module IbRubyProxy
 
       attr_reader :ib_client, :ib_wrapper_adapter
 
-      # @param [com.ib.client.EClient] ib_client IB +EClient+ object
+      # @param [com.ib.client.EClientSocket] ib_client IB +EClientSocket+ object
       # @param [IbWrapperAdapter] ib_wrapper_adapter
       def initialize(ib_client, ib_wrapper_adapter)
         @ib_client = ib_client
