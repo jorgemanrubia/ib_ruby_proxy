@@ -83,7 +83,7 @@ client.req_historical_ticks(18009, aapl, nil, '20190304 17:00:00', 100,
 end
 ```
 
-This feature is currently under development, and not all the mappings have been configured yet. Please check section *Add custom mappings* if you want to contribute new mappings (pull requests welcomed).
+This feature is currently under development, and not all the mappings have been configured yet. Please check [how to add custom mappings](#custom-mappings) if you want to contribute new mappings (pull requests welcomed).
 
 ## Development
 
@@ -93,8 +93,8 @@ The IB API defines several [value object](https://martinfowler.com/bliki/ValueOb
 
 `ib_ruby_proxy` includes a code generation utility that analyzes the IB Java classes and generates:
 
-- For the client side, a Ruby representation of each IB class. These classes contain all the data properties and, also, a method for converting them into their Java counterparts. 
-- For the server side, a Ruby extension to the Java class to add a method to turn them into their Ruby counterparts. This is meant for internal use when invoking API methods.
+- For the client side, a [Ruby representation of each IB class](https://www.rubydoc.info/github/jorgemanrubia/ib_ruby_proxy/IbRubyProxy/Client/Ib). These classes contain all the data properties and, also, a method for converting them into their Java counterparts. 
+- For the server side, it extends each Java class to make them convertible into their Ruby counterparts.
 
 The list of generated classes is defined by the property `classes` of `lib/ib_ruby_proxy/config.yml`. 
 
@@ -106,7 +106,7 @@ bin/generate_ruby_classes
 
 ### Custom mappings
 
-The *mapped callbacks* can be configured in the section *mapped_callbacks* of `lib/ib_ruby_proxy/config.yml`.
+The *mapped callbacks* can be configured in the section `mapped_callbacks` of `lib/ib_ruby_proxy/config.yml`.
 
 Each entry includes the name of the API method and a list of the callback methods related to that API call. The optional property `discriminate_by_argument_nth` is used for associating callbacks and methods based on the value of a given argument. This will be the *request identifier* in most cases.
 
@@ -121,7 +121,7 @@ Each entry includes the name of the API method and a list of the callback method
 
 ## Difference with ib-ruby
 
-[ib-ruby](https://github.com/ib-ruby/ib-ruby) is a mature Ruby alternative for using Interactive Brokers that uses a different approach: it interacts with IB software by using lower level messages interchanges via sockets. It also offers a higher-level abstraction of the IB API. I prefer the approach of `ib_ruby_proxy` (I wouldn't have created it otherwise), but `ib-ruby` has been around for a long time, it is well maintained and eliminates the dependency of JRuby. You should definitely give it a try if you are thinking in invoking IB from Ruby.
+[ib-ruby](https://github.com/ib-ruby/ib-ruby) is a mature Ruby alternative for using Interactive Brokers that uses a different approach: it interacts with IB by interchanging lower level messages via sockets. It also offers a higher-level abstraction of the IB API. I prefer the approach of `ib_ruby_proxy` (I wouldn't have created it otherwise), but `ib-ruby` has been around for a long time, it is well maintained and eliminates the dependency of JRuby. You should definitely give it a try if you are thinking in invoking IB from Ruby.
 
 ## Links
 
