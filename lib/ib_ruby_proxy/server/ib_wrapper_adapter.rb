@@ -5,7 +5,7 @@ module IbRubyProxy
   module Server
     # Ruby representation of the IB +EWrapper+ class. It delegates received callbacks by
     # triggering an observer notification. It will translate the name of the java method to
-    # Ruby (underscore), as well as translate the parameters from IB to the Ruby world.
+    # Ruby (underscore), as well as translate the parameters from IB to Ruby.
     #
     # @see IbClientAdapter
     class IbWrapperAdapter
