@@ -89,7 +89,10 @@ This feature is currently under development, and not all the mappings have been 
 
 ### How things work internally
 
-There are 2 mains subsystems: [`server`](https://github.com/jorgemanrubia/ib_ruby_proxy/tree/aa4875dbeac27eeae4f7e71825761b86cdcce342/lib/ib_ruby_proxy/server) and [`client`](https://github.com/jorgemanrubia/ib_ruby_proxy/tree/aa4875dbeac27eeae4f7e71825761b86cdcce342/lib/ib_ruby_proxy/client). `server` is where most of the magic happens and contains the code that runs the `ib_ruby_proxy` service. `client` is the module that contains the code that clients use, including [Ruby representation of IB data classes](https://github.com/jorgemanrubia/ib_ruby_proxy/tree/aa4875dbeac27eeae4f7e71825761b86cdcce342/lib/ib_ruby_proxy/client/ib).
+There are 2 mains subsystems: [`server`](https://github.com/jorgemanrubia/ib_ruby_proxy/tree/aa4875dbeac27eeae4f7e71825761b86cdcce342/lib/ib_ruby_proxy/server) and [`client`](https://github.com/jorgemanrubia/ib_ruby_proxy/tree/aa4875dbeac27eeae4f7e71825761b86cdcce342/lib/ib_ruby_proxy/client):
+
+- `server` is where most of the magic happens and contains the code that runs the `ib_ruby_proxy` service.
+- `client` is the module that contains the code that clients use, including [Ruby representation of IB data classes](https://github.com/jorgemanrubia/ib_ruby_proxy/tree/aa4875dbeac27eeae4f7e71825761b86cdcce342/lib/ib_ruby_proxy/client/ib).
 
 On the server side, there are Ruby equivalents for IB `ESocketClient` ( [`IbClientAdapter`](https://github.com/jorgemanrubia/ib_ruby_proxy/blob/bf4dbba5bf21f0f7cc9b2754244b8af939ad8c8a/lib/ib_ruby_proxy/server/ib_client_adapter.rb)) and `EWrapper` ([`IbWrapperAdapter`](https://github.com/jorgemanrubia/ib_ruby_proxy/blob/3ef8db78cfa3483b1dd93e2ef2ad360f140104f9/lib/ib_ruby_proxy/server/ib_wrapper_adapter.rb)) that analyze the corresponding Java classes and generate equivalent ruby methods on the fly. The [class exposed by DBb](https://github.com/jorgemanrubia/ib_ruby_proxy/blob/aa4875dbeac27eeae4f7e71825761b86cdcce342/lib/ib_ruby_proxy/client/client.rb) is a thin wrapper for `ESocketClient`.
 
