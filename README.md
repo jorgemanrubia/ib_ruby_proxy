@@ -87,6 +87,14 @@ This feature is currently under development, and not all the mappings have been 
 
 ## Development
 
+### How things work internally
+
+There are 2 mains subsystems: [`server`](https://github.com/jorgemanrubia/ib_ruby_proxy/tree/aa4875dbeac27eeae4f7e71825761b86cdcce342/lib/ib_ruby_proxy/server) and [`client`](https://github.com/jorgemanrubia/ib_ruby_proxy/tree/aa4875dbeac27eeae4f7e71825761b86cdcce342/lib/ib_ruby_proxy/client). `server` is where most of the magic happens and contains the code that runs the `ib_ruby_proxy` service. `client` is the module that contains the code that clients use, including [Ruby representation of IB data classes](https://github.com/jorgemanrubia/ib_ruby_proxy/tree/aa4875dbeac27eeae4f7e71825761b86cdcce342/lib/ib_ruby_proxy/client/ib).
+
+On the server side, there are Ruby equivalents for IB `ESocketClient` ( [`IbClientAdapter`](https://github.com/jorgemanrubia/ib_ruby_proxy/blob/bf4dbba5bf21f0f7cc9b2754244b8af939ad8c8a/lib/ib_ruby_proxy/server/ib_client_adapter.rb)) and `EWrapper` ([`IbWrapperAdapter`](https://github.com/jorgemanrubia/ib_ruby_proxy/blob/3ef8db78cfa3483b1dd93e2ef2ad360f140104f9/lib/ib_ruby_proxy/server/ib_wrapper_adapter.rb)) that analyze the corresponding Java classes and generate equivalent ruby methods on the fly. The [class exposed by DBb](https://github.com/jorgemanrubia/ib_ruby_proxy/blob/aa4875dbeac27eeae4f7e71825761b86cdcce342/lib/ib_ruby_proxy/client/client.rb) is a thin wrapper for `ESocketClient`.
+
+For converting data between Java and Ruby, the system relies on objects presenting 2 methods: `#to_ib` and `#to_ruby`. These methods are added automatically by [code generation for IB data classes](#generated-ruby-representations-of-java-ib-classes), and [dynamically with class extensions for other types](https://github.com/jorgemanrubia/ib_ruby_proxy/tree/31e688ed7e34790e07d9361970a2a6c66c234463/lib/ib_ruby_proxy/server/ext).
+
 ### Generated Ruby representations of Java IB classes
 
 The IB API defines several [value object](https://martinfowler.com/bliki/ValueObject.html) classes to represent the interchanged data. For example, `com.ib.client.Bar` represents a candlestick of market data.
