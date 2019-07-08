@@ -4,20 +4,6 @@ module IbRubyProxy
     # a block can be passed to the api method and it will be invoked when a callback is
     # received
     class CallbacksResponseHandler
-      IB_CALLBACKS_MAPPING = {
-        req_historical_ticks: { callbacks: %i[historical_ticks historical_ticks_bid_ask
-                                              historical_ticks_last],
-                                discriminate_by_argument_nth: 0 },
-        req_contract_details: { callbacks: %i[contract_details contract_details_end],
-                                discriminate_by_argument_nth: 0 },
-        req_tick_by_tick_data: { callbacks: %i[tick_by_tick_bid_ask tick_by_tick_all_last
-                                               tick_by_tick_mid_point],
-                                 discriminate_by_argument_nth: 0 },
-        req_historical_data: { callbacks: %i[historical_data historical_data_end
-                                             historical_data_update],
-                               discriminate_by_argument_nth: 0 }
-      }.freeze
-
       def initialize
         @method_handlers = {}
         @callback_handlers = {}
