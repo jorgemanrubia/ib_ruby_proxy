@@ -134,7 +134,7 @@ Each entry includes the name of the API method and a list of the callback method
 
 ### Testing
 
-You can run the spec suite:
+To run the spec suite:
 
 ```
 > rake
