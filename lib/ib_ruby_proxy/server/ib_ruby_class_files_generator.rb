@@ -1,8 +1,8 @@
 module IbRubyProxy
   module Server
-    # Source code generator that interacts with {IbRubyClassSourceGenerator} and writes down the
+    # Source code generator that interacts with {IbRubyClassSourceGenerator} and writes the
     # actual files with the source for both Ruby classes representing IB classes and Ruby extensions
-    # for these.
+    # for those.
     class IbRubyClassFilesGenerator
       attr_reader :client_code_dir, :server_code_dir
 
