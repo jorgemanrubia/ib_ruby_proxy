@@ -29,17 +29,17 @@ module IbRubyProxy
       private
 
       def import_java_classes
-        ruby_classes.each do |class_name|
+        java_classes.each do |class_name|
           java_import "com.ib.client.#{class_name}"
         end
       end
 
-      def ruby_classes
-        @ruby_classes ||= IbRubyProxy.config['classes']
+      def java_classes
+        @java_classes ||= IbRubyProxy.config['classes']
       end
 
       def do_generate_all
-        ruby_classes.each do |class_name|
+        java_classes.each do |class_name|
           generate_files class_name
         end
       end
