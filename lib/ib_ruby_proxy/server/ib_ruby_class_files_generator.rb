@@ -12,7 +12,7 @@ module IbRubyProxy
         @client_code_dir = client_code_dir
         @server_code_dir = server_code_dir
 
-        import_ruby_classes
+        import_java_classes
       end
 
       # Generate client files and server class extensions
@@ -28,7 +28,7 @@ module IbRubyProxy
 
       private
 
-      def import_ruby_classes
+      def import_java_classes
         ruby_classes.each do |class_name|
           java_import "com.ib.client.#{class_name}"
         end
