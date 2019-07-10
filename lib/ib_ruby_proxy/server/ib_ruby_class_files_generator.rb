@@ -55,15 +55,18 @@ module IbRubyProxy
       end
 
       def generate_client_file(generator, file_name)
-        target_file = File.join(client_code_dir, file_name)
-        puts "Generating client file: #{target_file}..."
-        File.open(target_file, 'w') { |file| file.write(generator.ruby_class_source) }
+        target_file_path = File.join(client_code_dir, file_name)
+        write_file(generator.ruby_class_source, target_file_path)
       end
 
       def generate_server_file(generator, file_name)
-        target_file = File.join(server_code_dir, file_name)
-        puts "Generating server file: #{target_file}..."
-        File.open(target_file, 'w') { |file| file.write(generator.ib_class_extension_source) }
+        target_file_path = File.join(server_code_dir, file_name)
+        write_file(generator.ib_class_extension_source, target_file_path)
+      end
+
+      def write_file(content, target_file_path)
+        puts "Generating file: #{target_file_path}..."
+        File.open(target_file_path, 'w') { |file| file.write(content) }
       end
 
       def format_code
