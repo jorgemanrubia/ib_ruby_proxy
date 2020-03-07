@@ -2,7 +2,7 @@ version: 2.1
 defaults: &defaults
   working_directory: ~/ib_ruby_proxy
   docker:
-    - image: circleci/jruby:9.2.7.0-jdk-node-browsers
+    - image: circleci/jruby:9.2.10.0-jdk-node-browsers
       environment:
         BUNDLE_PATH: vendor/bundle
         PGHOST: 127.0.0.1
