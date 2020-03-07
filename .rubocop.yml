@@ -89,7 +89,7 @@ RSpec/InstanceVariable:
 Style/ModuleFunction:
   Enabled: false
 
-Lint/HandleExceptions:
+Lint/SuppressedException:
   Enabled: false
 
 RSpec/BeforeAfterAll:
