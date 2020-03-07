@@ -33,7 +33,7 @@ Metrics/ParameterLists:
 Style/Documentation:
   Enabled: false
 
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   Enabled: false
 
 RSpec/ExampleLength:

@@ -102,7 +102,7 @@ RSpec.configure do |config|
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
   #
-  Dir["#{__dir__}/../spec/support/**/*.rb"].each { |file| require file }
+  Dir["#{__dir__}/../spec/support/**/*.rb"].sort.each { |file| require file }
 
   config.include Test::IbRubyProxyHelpers
 end

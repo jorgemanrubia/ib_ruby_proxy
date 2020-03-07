@@ -17,4 +17,4 @@ module IbRubyProxy
   end
 end
 
-Java::JavaLang::Enum.send(:include, IbRubyProxy::Server::Ext::Enum)
+Java::JavaLang::Enum.include IbRubyProxy::Server::Ext::Enum
