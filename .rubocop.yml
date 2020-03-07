@@ -129,6 +129,9 @@ Style/MethodMissingSuper:
 RSpec/MultipleDescribes:
   Enabled: false
 
+RuboCop::Cop::RSpec::LeakyConstantDeclaration:
+  Enabled: false
+
 AllCops:
   Exclude:
     - "**/*.sql"
