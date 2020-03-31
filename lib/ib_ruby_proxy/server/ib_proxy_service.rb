@@ -20,15 +20,17 @@ module IbRubyProxy
     # * Starts an IB message-processing thread that will dispatch messages sent to IB client app (
     #   gateway or TWS)
     class IbProxyService
+      DEFAULT_IB_HOST = 'localhost'
       DEFAULT_IB_GATEWAY_PORT = 4002
+      DEFAULT_DRB_HOST = 'localhost'
       DEFAULT_DRB_PORT = 1992
 
       # @param [String] ib_host Hostname for the IB client app (gateway or TWS). Default +localhost+
       # @param [Integer] ib_port Port for hte IB client app (gateway or TWS). Default +4002+ (gateway)
       # @param [String] drb_host Hostname for the DRB process. Default +localhost+
       # @param [Integer] drb_port Port for the . Default +1992+
-      def initialize(ib_host: 'localhost', ib_port: DEFAULT_IB_GATEWAY_PORT,
-                     drb_host: 'localhost', drb_port: DEFAULT_DRB_PORT)
+      def initialize(ib_host: DEFAULT_IB_HOST, ib_port: DEFAULT_IB_GATEWAY_PORT,
+                     drb_host: DEFAULT_DRB_HOST, drb_port: DEFAULT_DRB_PORT)
         @ib_host = ib_host
         @ib_port = ib_port
         @drb_host = drb_host
