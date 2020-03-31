@@ -18,15 +18,28 @@ default_command :server
 command :server do |c|
   c.syntax = 'ibproxy server [options]'
   c.summary = 'Start ibproxy server'
-  c.option '--ib-port PORT', Integer, "Interactive brokers client port. #{IbRubyProxy::Server::IbProxyService::DEFAULT_IB_GATEWAY_PORT} by default (Gateway). Default for TWS is whatever"
+
+  c.option '--ib-host HOST', String, "Host for interactive brokers client. #{IbRubyProxy::Server::IbProxyService::DEFAULT_IB_HOST} by default"
+  c.option '--ib-port PORT', Integer, "Port for interactive brokers client. #{IbRubyProxy::Server::IbProxyService::DEFAULT_IB_GATEWAY_PORT} by default (Gateway). Default for TWS is whatever"
+  c.option '--drb-host HOST', String, "Host for the server drb endpoint. #{IbRubyProxy::Server::IbProxyService::DEFAULT_DRB_HOST} by default"
   c.option '--drb-port PORT', Integer, "Port for the served drb endpoint. #{IbRubyProxy::Server::IbProxyService::DEFAULT_DRB_PORT} by default"
+
   c.action do |args, options|
-    options.default ib_port: IbRubyProxy::Server::IbProxyService::DEFAULT_IB_GATEWAY_PORT,
-                    drb_port: IbRubyProxy::Server::IbProxyService::DEFAULT_DRB_PORT
+    options.default(
+      ib_host: IbRubyProxy::Server::IbProxyService::DEFAULT_IB_HOST,
+      ib_port: IbRubyProxy::Server::IbProxyService::DEFAULT_IB_GATEWAY_PORT,
+      drb_host: IbRubyProxy::Server::IbProxyService::DEFAULT_DRB_HOST,
+      drb_port: IbRubyProxy::Server::IbProxyService::DEFAULT_DRB_PORT,
+    )
+
+    ib_host = options.ib_host
     ib_port = options.ib_port
+    drb_host = options.drb_host
     drb_port = options.drb_port
+
     puts "Starting with ib port #{ib_port} and drb port #{drb_port}..."
-    IbRubyProxy::Server::IbProxyService.new(ib_port: ib_port, drb_port: drb_port).start
+    IbRubyProxy::Server::IbProxyService.new(
+      ib_host: ib_host, ib_port: ib_port, drb_host: drb_host, drb_port: drb_port
+    ).start
   end
 end
-
