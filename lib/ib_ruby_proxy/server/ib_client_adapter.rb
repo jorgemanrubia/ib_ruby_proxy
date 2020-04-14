@@ -26,6 +26,10 @@ module IbRubyProxy
         @ib_wrapper_adapter = ib_wrapper_adapter
       end
 
+      def ib_client_connected?
+        @ib_client.isConnected
+      end
+
       # @param [IbRubyProxy::Client::IbCallbacksObserver] ib_callbacks_observer
       def add_ib_callbacks_observer(ib_callbacks_observer)
         ib_wrapper_adapter.add_observer(ib_callbacks_observer)
